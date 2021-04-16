@@ -2,4 +2,6 @@
 
 Final project for The Odin Project's Ruby section, also used for testing Git's branching.
 
-Fixed some spelling errors.
+Final project for The Odin Project's Ruby section.
+
+Just edited the new branch, testing to see if it works.
