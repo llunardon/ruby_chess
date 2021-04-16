@@ -2,4 +2,4 @@
 
 Final project for The Odin Project's Ruby section.
 
-Adding some lines of nonsense to test Git's branching features
+Just edited the new branch, testing to see if it works.
