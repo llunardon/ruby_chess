@@ -48,6 +48,7 @@ class Board
 
   def print_board()
     #unicode values
+    #white characters
     white_rook = "\u2656"
     white_knight = "\u2658"
     white_bishop = "\u2657"
@@ -55,6 +56,7 @@ class Board
     white_king = "\u2654"
     white_pawn = "\u2659"
 
+    #black characters
     black_rook = "\u265c"
     black_knight = "\u265e"
     black_bishop = "\u265d"
@@ -62,8 +64,20 @@ class Board
     black_king = "\u265a"
     black_pawn = "\u265f"
 
-    @cells.each do |row|
+    #print columns indexes
+    puts '  abcdefgh  '
+    puts ' __________ '
+
+    #iterate over every row
+    @cells.each_with_index do |row, index|
+      #print row index
+      print (8-index).to_s
+      print '|'
+
+      #iterate over every column
       row.each do |cell|
+        #switch statement, checks the piece's name and color
+        #and prints the corrispondent unicode character
         case cell.piece.name
         when 'rook'
           if cell.piece.color == 'white'
@@ -71,40 +85,53 @@ class Board
           else
             print black_rook.encode('utf-8')                       
           end
+
         when 'knight'
           if cell.piece.color == 'white'
             print white_knight.encode('utf-8')
           else
             print black_knight.encode('utf-8')
           end
+
         when 'bishop'
           if cell.piece.color == 'white' 
             print white_bishop.encode('utf-8') 
           else
             print black_bishop.encode('utf-8')
           end
+
         when 'queen'
           if cell.piece.color == 'white' 
             print white_queen.encode('utf-8') 
           else
             print black_queen.encode('utf-8')
           end
+
         when 'king'
           if cell.piece.color == 'white' 
             print white_king.encode('utf-8') 
           else
             print black_king.encode('utf-8')
           end
+
         when 'pawn'
           if cell.piece.color == 'white' 
             print white_pawn.encode('utf-8') 
           else
             print black_pawn.encode('utf-8')
           end
+        else
+          print ' '
         end
       end
+
+      print '|'
+      print (8-index).to_s
       puts ''
     end
+
+    puts ' __________ '
+    puts '  abcdefgh  '
   end
 
   def cell_at(row, col)
