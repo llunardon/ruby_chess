@@ -5,4 +5,9 @@ class Piece
     @name = name
     @color = color
   end
+
+  def set(name, color)
+    @name = name
+    @color = color
+  end
 end

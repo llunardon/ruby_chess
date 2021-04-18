@@ -11,12 +11,3 @@ class Cell
     @piece.name == 'none' ? true : false 
   end
 end
-
-#test_cell = Cell.new
-#p test_cell.piece
-#p test_cell.is_empty?
-#
-#test_cell.piece.name = 'pawn'
-#test_cell.piece.color = 'white'
-#p test_cell.piece
-#p test_cell.is_empty?
