@@ -123,6 +123,7 @@ def vertical_downward_moves(board, row, col)
 
   loop do 
     lower_cell = board.cells[row + 1][col]
+
     if lower_cell.piece.color == 'none'
       ret_array << [8 - row - 1, (col + 97).chr]
     elsif lower_cell.piece.color == opp_color
@@ -141,9 +142,65 @@ def vertical_downward_moves(board, row, col)
 end
 
 def horizontal_right_moves(board, row, col)
-  return
+  piece = board.cells[row][col].piece
+
+  #find the opponent's color
+  if piece.color == 'white'
+    opp_color = 'black'
+  else
+    opp_color = 'white'
+  end
+
+  ret_array = []
+
+  loop do 
+    right_cell = board.cells[row][col + 1]
+
+    if right_cell.piece.color == 'none'
+      ret_array << [8 - row, (col + 97 + 1).chr]
+    elsif right_cell.piece.color == opp_color
+      ret_array << [8 - row, (col + 97 + 1).chr]
+      return ret_array
+    elsif right_cell.piece.color == piece.color
+      return ret_array
+    end
+
+    col += 1
+    #exit loop if it reaches the first row
+    break if col == 7 
+  end
+
+  ret_array
 end
 
 def horizontal_left_moves(board, row, col)
-  return
+  piece = board.cells[row][col].piece
+
+  #find the opponent's color
+  if piece.color == 'white'
+    opp_color = 'black'
+  else
+    opp_color = 'white'
+  end
+
+  ret_array = []
+
+  loop do 
+    left_cell = board.cells[row][col - 1]
+
+    if left_cell.piece.color == 'none'
+      ret_array << [8 - row, (col + 97 - 1).chr]
+    elsif left_cell.piece.color == opp_color
+      ret_array << [8 - row, (col + 97 - 1).chr]
+      return ret_array
+    elsif left_cell.piece.color == piece.color
+      return ret_array
+    end
+
+    col -= 1
+    #exit loop if it reaches the first row
+    break if col == 0 
+  end
+
+  ret_array
 end
