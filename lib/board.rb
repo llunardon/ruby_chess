@@ -211,8 +211,8 @@ end
 board = Board.new
 board.print_board
 
-board.move_piece([1, 'c'], [4, 'c'])
+board.move_piece([1, 'b'], [7, 'e'])
 
 board.print_board
 
-p get_possible_moves(board, [4, 'c'])
+p get_possible_moves(board, [7, 'e'])

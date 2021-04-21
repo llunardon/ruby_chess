@@ -268,3 +268,58 @@ def downward_left_moves(board, row, col)
   ret_array
 end
 
+def knight_moves(board, row, col)
+  #get the piece at the given coordinates
+  piece = board.cells[row][col].piece
+
+  #find the opponent's color
+  if piece.color == 'white'
+    opp_color = 'black'
+  else
+    opp_color = 'white'
+  end
+
+  ret_array = []
+
+  #two rows up, one column right
+  if row > 1 && col < 7 && board.cells[row - 2][col + 1].piece.color != piece.color
+    ret_array << [8 - row + 2, (col + 97 + 1).chr]
+  end
+
+  #one row up, two columns right
+  if row > 0 && col < 6 && board.cells[row - 1][col + 2].piece.color != piece.color
+    ret_array << [8 - row + 1, (col + 97 + 2).chr]
+  end
+
+  #two rows up, one column left
+  if row > 1 && col > 0 && board.cells[row - 2][col - 1].piece.color != piece.color
+    ret_array << [8 - row + 2, (col + 97 - 1).chr]
+  end
+
+  #one row up, two columns left
+  if row > 0 && col > 1 && board.cells[row - 1][col - 2].piece.color != piece.color
+    ret_array << [8 - row + 1, (col + 97 - 2).chr]
+  end
+
+  #two rows down, one column right
+  if row < 6 && col < 7 && board.cells[row + 2][col + 1].piece.color != piece.color
+    ret_array << [8 - row - 2, (col + 97 + 1).chr]
+  end
+
+  #one row down, two columns right
+  if row < 7 && col < 6 && board.cells[row + 1][col + 2].piece.color != piece.color
+    ret_array << [8 - row - 1, (col + 97 + 2).chr]
+  end
+
+  #two rows down, one column left
+  if row < 6 && col > 0 && board.cells[row + 2][col - 1].piece.color != piece.color
+    ret_array << [8 - row - 2, (col + 97 - 1).chr]
+  end
+
+  #one row down, two columns left
+  if row < 7 && col > 1 && board.cells[row + 1][col - 2].piece.color != piece.color
+    ret_array << [8 - row - 1, (col + 97 - 2).chr]
+  end
+
+  ret_array
+end
