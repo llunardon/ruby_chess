@@ -13,32 +13,63 @@ def play_game()
   
   board = Board.new
   board.print_board
+  assign_possible_moves(board)
 
-  play_round(board, player1)
+  loop do
+    play_round(board, player1)
+    play_round(board, player2)
+  end
 end
 
 def play_round(board, player)
-  puts "It is #{player.name}\'s turn. Choose a piece to move:"
-  puts "Insert the row and column separated by a comma"
-  start_coords = get_input_coords
+  #inizialize coordinates
+  start_coords = nil
+  end_coords = nil
 
+  #get the coordinates of the piece to move
+  puts "It is #{player.name}\'s turn. Choose a piece to move:"
+  loop do
+    puts "Insert the row and column separated by a comma"
+    start_coords = get_input_coords(board)
+
+    piece = board.cell_at(start_coords[0], start_coords[1]).piece
+
+    break if piece.color == player.color && piece.possible_moves.any?
+
+    puts 'Insert a valid cell'
+  end
+
+  #get the coordinates of the target cell
   puts "Choose the target cell in which to move the selected piece"
-  puts "Insert the row and column separated by a comma"
-  end_coords = get_input_coords
+  loop do
+    puts "Insert the row and column separated by a comma"
+    end_coords = get_input_coords(board)
+
+    piece = board.cell_at(start_coords[0], start_coords[1]).piece
+
+    break if piece.possible_moves.include?(end_coords)
+
+    puts 'Insert a valid cell'
+  end
 
   board.move_piece(start_coords, end_coords)
   board.print_board
+  assign_possible_moves(board)
 end
 
-def get_input_coords()
-  start_coords = gets.chomp
-  start_coords = start_coords.split(',')
+def get_input_coords(board)
+  loop do
+    coords = gets.chomp
+    coords = coords.split(',')
 
-  #clean up the input
-  start_coords[1] = start_coords[1].strip
-  start_coords[0] = start_coords[0].to_i
+    #clean up the input
+    coords[1] = coords[1].strip 
+    coords[0] = coords[0].to_i 
 
-  start_coords
+    return coords if board.check_if_valid_coords(coords)
+
+    puts 'Insert valid coordinates.'
+  end
 end
 
 play_game
