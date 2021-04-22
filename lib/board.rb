@@ -148,6 +148,10 @@ class Board
     @cells[8-row][col_num]
   end
 
+  def get_coords(row, col)
+    [8 - row, (col + 97).chr]
+  end
+
   def check_if_valid_coords(coords)
     #check row index
     return false if coords[0] < 1 || coords[0] > 8 
@@ -172,47 +176,13 @@ class Board
     #set starting cell to empty
     cell_at(start_coords[0], start_coords[1]).piece.set('none', 'none')
   end
-
-  def set_possible_moves()
-    @cells.each_with_index do |row, row_index|
-      
-      row.each_with_index do |cell, col_index|
-        p coords = [(8 - row_index), (col_index + 97).chr]
-        p cell.piece.name
-      end
-
-    end
-  end
-
-  #def get_possible_moves(row, col)
-  #  piece = cell_at(row, col)
-
-  #  piece.color == 'white'? opponent_color = 'black' : opponent_color = 'white'
-
-  #  case piece.name
-  #  when 'pawn'
-  #    get_pawn_moves(@cells, row, col, piece.color)
-  #  when 'knight'
-
-  #  when 'bishop'
-
-  #  when 'rook'
-
-  #  when 'king'
-
-  #  when 'queen'
-
-  #  else
-  #    puts ''
-  #  end
-  #end
 end
 
 board = Board.new
 board.print_board
-
-board.move_piece([1, 'b'], [7, 'e'])
-
+assign_possible_moves(board)
 board.print_board
 
-p get_possible_moves(board, [7, 'e'])
+p board.cell_at(2, 'a').piece.possible_moves
+board.print_board
+#p get_possible_moves(board, [1, 'd'])

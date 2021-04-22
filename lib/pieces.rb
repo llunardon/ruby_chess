@@ -13,12 +13,6 @@ class Piece
     @name = name
     @color = color
   end
-
-  #def assign_possible_moves(cells_arr, coords)
-  #  @possible_moves = []
-  #  
-  #  
-  #end
 end
 
 def get_possible_moves(board, coords)
@@ -86,6 +80,44 @@ def get_possible_moves(board, coords)
   when piece.name == 'knight'
     knight_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
 
+  #queen
+  when piece.name == 'queen'
+    #add possible moves in the upward direction
+    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+    #add possible moves in the downward direction
+    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
+    #add possible moves in the right direction
+    horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    #add possible moves in the left direction
+    horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    #add possible moves in the up-right direction
+    upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+    #add possible moves in the up-left direction
+    upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
+    #add possible moves in the down-right direction
+    downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    #add possible moves in the down-left direction
+    downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+
+  #king
+  when piece.name == 'king'
+    king_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+
   end
   possible_moves
+end
+
+def assign_possible_moves(board)
+  board.cells.each_with_index do |row, row_index|
+
+    row.each_with_index do |cell, col_index|
+      coords = get_coords(row_index, col_index)
+      cell.piece.possible_moves = get_possible_moves(board, coords)
+    end
+
+  end
+end
+
+def get_coords(row, col)
+  [8 - row, (col + 97).chr]
 end
