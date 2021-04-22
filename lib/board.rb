@@ -178,11 +178,10 @@ class Board
   end
 end
 
-board = Board.new
-board.print_board
-assign_possible_moves(board)
-board.print_board
-
-p board.cell_at(2, 'a').piece.possible_moves
-board.print_board
-#p get_possible_moves(board, [1, 'd'])
+#board = Board.new
+#board.print_board
+#assign_possible_moves(board)
+#
+#board.print_board
+#p board.cell_at(1, 'a').piece.possible_moves
+#

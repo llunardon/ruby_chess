@@ -107,6 +107,7 @@ def get_possible_moves(board, coords)
   possible_moves
 end
 
+#assign possible moves to every piece in the given board
 def assign_possible_moves(board)
   board.cells.each_with_index do |row, row_index|
 

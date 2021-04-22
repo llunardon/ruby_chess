@@ -11,7 +11,3 @@ class Player
     end
   end
 end
-
-player1 = Player.new
-puts player1.color
-puts player1.name
