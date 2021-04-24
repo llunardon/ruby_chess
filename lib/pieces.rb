@@ -21,46 +21,16 @@ def get_cell_moves(board, coords)
 
   row = 8 - coords[0]
   col = coords[1][0].ord - 97
-  
+  #TODO wrap up the pawn moves in a function
   #switch statement
   case 
   #white pawn
   when piece.name == 'pawn' && piece.color == 'white'
-    #pawn can move upward
-    if board.cells[row - 1][col].piece.color == 'none' && row == 6
-      possible_moves << [8 - row + 1, (col + 97).chr] 
-      #pawn is in the starting position, so it can move two cells up
-      possible_moves << [8 - row + 2, (col + 97).chr] 
-    elsif board.cells[row - 1][col].piece.color == 'none' && row > 0
-      possible_moves << [8 - row + 1, (col + 97).chr] 
-    end
-    #pawn has opponent piece to its left, upward
-    if row > 0 && col > 0 && board.cells[row - 1][col - 1].piece.color == 'black'
-      possible_moves << [8 - row + 1, (col - 1 + 97).chr]
-    end
-    #pawn has opponent piece to its right, upward
-    if row > 0 && col < 7 && board.cells[row - 1][col + 1].piece.color == 'black'
-      possible_moves << [8 - row + 1, (col + 1 + 97).chr]
-    end
+    white_pawn_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
 
   #black pawn
   when piece.name == 'pawn' && piece.color == 'black'
-    #pawn can move downward
-    if row == 1 && board.cells[row + 1][col].piece.color == 'none' 
-      possible_moves << [8 - row - 1, (col + 97).chr] 
-      #pawn is in the starting position, so it can move two cells down
-      possible_moves << [8 - row - 2, (col + 97).chr] 
-    elsif row < 7 && board.cells[row + 1][col].piece.color == 'none' 
-      possible_moves << [8 - row - 1, (col + 97).chr] 
-    end
-    #pawn has opponent piece to its left, downward
-    if row < 7 && col > 0 && board.cells[row + 1][col - 1].piece.color == 'white'
-      possible_moves << [8 - row - 1, (col - 1 + 97).chr]
-    end
-    #pawn has opponent piece to its right, downward
-    if row < 7 && col < 7 && board.cells[row + 1][col + 1].piece.color == 'white'
-      possible_moves << [8 - row - 1, (col + 1 + 97).chr]
-    end
+    black_pawn_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
     
   #rook
   when piece.name == 'rook'
@@ -127,6 +97,7 @@ def assign_possible_moves(board)
   end
 end
 
+#returns an array with all the possible moves a player can do
 def get_all_player_moves(board, color)
   ret_array = []
 
@@ -145,6 +116,7 @@ def get_all_player_moves(board, color)
   ret_array
 end
 
+#returns the "front-end" coordinates given the @cells indexes
 def get_coords(row, col)
   [8 - row, (col + 97).chr]
 end

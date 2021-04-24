@@ -1,3 +1,48 @@
+def white_pawn_moves(board, row, col)
+  ret_array = []
+
+  if board.cells[row - 1][col].piece.color == 'none' && row == 6
+    ret_array << [8 - row + 1, (col + 97).chr] 
+    #pawn is in the starting position, so it can move two cells up
+    ret_array << [8 - row + 2, (col + 97).chr] 
+  elsif board.cells[row - 1][col].piece.color == 'none' && row > 0
+    ret_array << [8 - row + 1, (col + 97).chr] 
+  end
+  #pawn has opponent piece to its left, upward
+  if row > 0 && col > 0 && board.cells[row - 1][col - 1].piece.color == 'black'
+    ret_array << [8 - row + 1, (col - 1 + 97).chr]
+  end
+  #pawn has opponent piece to its right, upward
+  if row > 0 && col < 7 && board.cells[row - 1][col + 1].piece.color == 'black'
+    ret_array << [8 - row + 1, (col + 1 + 97).chr]
+  end
+
+  ret_array
+end
+
+def black_pawn_moves(board, row, col)
+  ret_array = []
+
+  #pawn can move downward
+  if row == 1 && board.cells[row + 1][col].piece.color == 'none' 
+    ret_array << [8 - row - 1, (col + 97).chr] 
+    #pawn is in the starting position, so it can move two cells down
+    ret_array << [8 - row - 2, (col + 97).chr] 
+  elsif row < 7 && board.cells[row + 1][col].piece.color == 'none' 
+    ret_array << [8 - row - 1, (col + 97).chr] 
+  end
+  #pawn has opponent piece to its left, downward
+  if row < 7 && col > 0 && board.cells[row + 1][col - 1].piece.color == 'white'
+    ret_array << [8 - row - 1, (col - 1 + 97).chr]
+  end
+  #pawn has opponent piece to its right, downward
+  if row < 7 && col < 7 && board.cells[row + 1][col + 1].piece.color == 'white'
+    ret_array << [8 - row - 1, (col + 1 + 97).chr]
+  end
+
+  ret_array
+end
+
 def vertical_upward_moves(board, row, col)
   #get the piece at the given coordinates
   piece = board.cells[row][col].piece
