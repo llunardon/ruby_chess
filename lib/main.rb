@@ -1,5 +1,6 @@
 require_relative 'player.rb'
 require_relative 'board.rb'
+require_relative 'moves.rb'
 
 def play_game()
   #create player 1
