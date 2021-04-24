@@ -4,10 +4,6 @@ class Player
   def initialize()
     puts "What\'s your name?"
     @name = gets.chomp
-    puts "What color do you choose?"
-    @color = gets.chomp.downcase
-    until @color == 'black' || @color == 'white' do
-      @color = gets.chomp.downcase
-    end
+    @color = ''
   end
 end

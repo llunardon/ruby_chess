@@ -15,7 +15,7 @@ class Piece
   end
 end
 
-def get_possible_moves(board, coords)
+def get_cell_moves(board, coords)
   piece = board.cell_at(coords[0], coords[1]).piece
   possible_moves = []
 
@@ -27,7 +27,11 @@ def get_possible_moves(board, coords)
   #white pawn
   when piece.name == 'pawn' && piece.color == 'white'
     #pawn can move upward
-    if board.cells[row - 1][col].piece.color == 'none' && row > 0
+    if board.cells[row - 1][col].piece.color == 'none' && row == 6
+      possible_moves << [8 - row + 1, (col + 97).chr] 
+      #pawn is in the starting position, so it can move two cells up
+      possible_moves << [8 - row + 2, (col + 97).chr] 
+    elsif board.cells[row - 1][col].piece.color == 'none' && row > 0
       possible_moves << [8 - row + 1, (col + 97).chr] 
     end
     #pawn has opponent piece to its left, upward
@@ -42,7 +46,11 @@ def get_possible_moves(board, coords)
   #black pawn
   when piece.name == 'pawn' && piece.color == 'black'
     #pawn can move downward
-    if row < 7 && board.cells[row + 1][col].piece.color == 'none' 
+    if row == 1 && board.cells[row + 1][col].piece.color == 'none' 
+      possible_moves << [8 - row - 1, (col + 97).chr] 
+      #pawn is in the starting position, so it can move two cells down
+      possible_moves << [8 - row - 2, (col + 97).chr] 
+    elsif row < 7 && board.cells[row + 1][col].piece.color == 'none' 
       possible_moves << [8 - row - 1, (col + 97).chr] 
     end
     #pawn has opponent piece to its left, downward
@@ -113,10 +121,28 @@ def assign_possible_moves(board)
 
     row.each_with_index do |cell, col_index|
       coords = get_coords(row_index, col_index)
-      cell.piece.possible_moves = get_possible_moves(board, coords)
+      cell.piece.possible_moves = get_cell_moves(board, coords)
     end
 
   end
+end
+
+def get_all_player_moves(board, color)
+  ret_array = []
+
+  board.cells.each_with_index do |row, row_index|
+    row.each_with_index do |col, col_index|
+      piece = board.cells[row_index][col_index].piece
+      
+      if piece.color == color
+        piece.possible_moves.each do |coord|
+          ret_array << coord
+        end
+      end
+    end
+  end
+
+  ret_array
 end
 
 def get_coords(row, col)

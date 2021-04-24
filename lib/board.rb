@@ -177,11 +177,3 @@ class Board
     cell_at(start_coords[0], start_coords[1]).piece.set('none', 'none')
   end
 end
-
-#board = Board.new
-#board.print_board
-#assign_possible_moves(board)
-#
-#board.print_board
-#p board.cell_at(1, 'a').piece.possible_moves
-#
