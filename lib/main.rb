@@ -22,13 +22,19 @@ def play_game()
 
   #play rounds
   loop do
-    play_round(board, player1)
-    play_round(board, player2)
+    if player1.color == 'white'
+      play_round(board, player1)
+      play_round(board, player2)
+    else
+      play_round(board, player2)
+      play_round(board, player1)
+    end
   end
 end
 
 def play_round(board, player)
-  p is_check = is_in_check(board, player)
+  is_check = is_in_check?(board, player)
+  puts "#{player.name}, you\'re in check!" if is_check
 
   #inizialize coordinates
   start_coords = nil

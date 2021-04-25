@@ -108,7 +108,7 @@ def get_coords(row, col)
 end
 
 #returns a boolean that indicates if the player's king is in check
-def is_in_check(board, player)
+def is_in_check?(board, player)
   if player.color == 'white'
     opp_color = 'black'
   else
