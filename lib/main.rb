@@ -28,6 +28,8 @@ def play_game()
 end
 
 def play_round(board, player)
+  p is_check = is_in_check(board, player)
+
   #inizialize coordinates
   start_coords = nil
   end_coords = nil

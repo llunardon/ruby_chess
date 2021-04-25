@@ -148,10 +148,6 @@ class Board
     @cells[8-row][col_num]
   end
 
-  def get_coords(row, col)
-    [8 - row, (col + 97).chr]
-  end
-
   def check_if_valid_coords(coords)
     #check row index
     return false if coords[0] < 1 || coords[0] > 8 
@@ -176,4 +172,25 @@ class Board
     #set starting cell to empty
     cell_at(start_coords[0], start_coords[1]).piece.set('none', 'none')
   end
+
+  #return the 'front end' coordinates of the king of the given color
+  def find_king(color)
+    @cells.each_with_index do |row, row_index|
+      row.each_with_index do |cell, col_index|
+        piece = cell.piece
+        if piece.name == 'king' && piece.color == color
+          return get_coords(row_index, col_index)
+        end
+      end
+    end
+
+    #if something went wrong
+    return nil
+  end
+
+  def get_coords(row, col)
+    [8 - row, (col + 97).chr]
+  end
 end
+
+

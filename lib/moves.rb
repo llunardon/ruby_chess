@@ -106,3 +106,20 @@ end
 def get_coords(row, col)
   [8 - row, (col + 97).chr]
 end
+
+#returns a boolean that indicates if the player's king is in check
+def is_in_check(board, player)
+  if player.color == 'white'
+    opp_color = 'black'
+  else
+    opp_color = 'white'
+  end
+
+  king_coords = board.find_king(player.color)
+
+  if get_all_player_moves(board, opp_color).include?(king_coords)
+    return true
+  else
+    return false
+  end
+end
