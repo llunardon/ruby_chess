@@ -3,7 +3,7 @@ require_relative 'board.rb'
 require_relative 'moves.rb'
 
 def play_game()
-  #create player 1
+  #create player 1 and let them choose the color
   player1 = Player.new
   puts "#{player1.name}, what color do you choose?"
   player1.color = gets.chomp.downcase
@@ -11,13 +11,9 @@ def play_game()
     player1.color = gets.chomp.downcase
   end
 
-  #create player 2
+  #create player 2 and assign them the opposite color
   player2 = Player.new
-  if player1.color == 'white'
-    player2.color = 'black'
-  else
-    player2.color = 'white'
-  end
+  player1.color == 'white' ? player2.color = 'black' : player2.color = 'white'
   
   #inizialize board 
   board = Board.new
