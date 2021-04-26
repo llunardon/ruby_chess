@@ -67,8 +67,8 @@ class Board
     white_pawn = "\u265f"
 
     #print columns indexes
-    puts '  abcdefgh  '
-    puts ' __________ '
+    puts '  a b c d e f g h  '
+    puts ' _________________ '
 
     #iterate over every row
     @cells.each_with_index do |row, index|
@@ -83,47 +83,47 @@ class Board
         case cell.piece.name
         when 'rook'
           if cell.piece.color == 'white'
-            print white_rook.encode('utf-8')                       
+            print white_rook.encode('utf-8') + ' '
           else
-            print black_rook.encode('utf-8')                       
+            print black_rook.encode('utf-8') + ' '                       
           end
 
         when 'knight'
           if cell.piece.color == 'white'
-            print white_knight.encode('utf-8')
+            print white_knight.encode('utf-8') + ' '
           else
-            print black_knight.encode('utf-8')
+            print black_knight.encode('utf-8') + ' '
           end
 
         when 'bishop'
           if cell.piece.color == 'white' 
-            print white_bishop.encode('utf-8') 
+            print white_bishop.encode('utf-8') + ' '
           else
-            print black_bishop.encode('utf-8')
+            print black_bishop.encode('utf-8') + ' '  
           end
 
         when 'queen'
           if cell.piece.color == 'white' 
-            print white_queen.encode('utf-8') 
+            print white_queen.encode('utf-8') + ' '
           else
-            print black_queen.encode('utf-8')
+            print black_queen.encode('utf-8') + ' '
           end
 
         when 'king'
           if cell.piece.color == 'white' 
-            print white_king.encode('utf-8') 
+            print white_king.encode('utf-8') + ' '
           else
-            print black_king.encode('utf-8')
+            print black_king.encode('utf-8') + ' '
           end
 
         when 'pawn'
           if cell.piece.color == 'white' 
-            print white_pawn.encode('utf-8') 
+            print white_pawn.encode('utf-8') + ' '
           else
-            print black_pawn.encode('utf-8')
+            print black_pawn.encode('utf-8') + ' '
           end
         else
-          print ' '
+          print '  '
         end
       end
 
@@ -132,8 +132,8 @@ class Board
       puts ''
     end
 
-    puts ' __________ '
-    puts '  abcdefgh  '
+    puts ' _________________ '
+    puts '  a b c d e f g h  '
   end
 
   def cell_at(row, col)

@@ -33,8 +33,9 @@ def play_game()
 end
 
 def play_round(board, player)
+  #control if the player is in check
   is_check = is_in_check?(board, player)
-  puts "#{player.name}, you\'re in check!" if is_check
+  puts "***** #{player.name}, you\'re in check! *****" if is_check
 
   #inizialize coordinates
   start_coords = nil
