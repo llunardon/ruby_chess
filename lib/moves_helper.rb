@@ -3,8 +3,8 @@ def white_pawn_moves(board, row, col)
 
   if board.cells[row - 1][col].piece.color == 'none' && row == 6
     ret_array << [8 - row + 1, (col + 97).chr] 
-    #pawn is in the starting position, so it can move two cells up
-    ret_array << [8 - row + 2, (col + 97).chr] 
+    #pawn is in the starting position, so it can move two cells up if the cell is empty
+    ret_array << [8 - row + 2, (col + 97).chr] if board.cells[row - 2][col].piece.color == 'none'
   elsif board.cells[row - 1][col].piece.color == 'none' && row > 0
     ret_array << [8 - row + 1, (col + 97).chr] 
   end
@@ -26,8 +26,8 @@ def black_pawn_moves(board, row, col)
   #pawn can move downward
   if row == 1 && board.cells[row + 1][col].piece.color == 'none' 
     ret_array << [8 - row - 1, (col + 97).chr] 
-    #pawn is in the starting position, so it can move two cells down
-    ret_array << [8 - row - 2, (col + 97).chr] 
+    #pawn is in the starting position, so it can move two cells down if the cell is empty
+    ret_array << [8 - row - 2, (col + 97).chr] if board.cells[row + 2][col].piece.color == 'none'
   elsif row < 7 && board.cells[row + 1][col].piece.color == 'none' 
     ret_array << [8 - row - 1, (col + 97).chr] 
   end

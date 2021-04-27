@@ -99,7 +99,7 @@ def get_all_player_moves(board, color)
     end
   end
 
-  ret_array
+  ret_array.uniq
 end
 
 #returns the "front-end" coordinates given the @cells indexes
@@ -123,3 +123,45 @@ def is_in_check?(board, player)
     return false
   end
 end
+
+def get_moves_that_cause_check(board, player)
+  moves_to_delete = []
+
+  #cycle every cell of the board
+  board.cells.each_with_index do |row, row_index|
+    row.each_with_index do |cell, col_index|
+      piece = cell.piece
+
+      #select only the given player's pieces
+      if piece.color == player.color
+        start_coords = get_coords(row_index, col_index)
+        #cycle every piece's possible move
+        piece.possible_moves.each do |end_coords|
+          if causes_check?(board, player, start_coords, end_coords)
+            moves_to_delete << end_coords
+          end
+        end
+      end
+    end
+  end
+
+  moves_to_delete
+end
+
+def causes_check?(board, player, start_coords, end_coords)
+  #move the piece at the given coordinates
+  board.move_piece(start_coords, end_coords)
+
+  #is it in check?
+  if is_in_check?(board, player)
+    ret = true
+  else
+    ret = false
+  end
+
+  #reset the board to its original state
+  board.move_piece(end_coords, start_coords)
+
+  ret
+end
+

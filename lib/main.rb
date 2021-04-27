@@ -33,6 +33,16 @@ def play_game()
 end
 
 def play_round(board, player)
+  #calculate the legal moves
+  player_legal_moves = get_all_player_moves(board, player.color) - get_moves_that_cause_check(board, player)
+
+  #control if the player is in checkmate
+  if player_legal_moves.empty?
+    puts "#{player.name} lost!"
+    #is in checkmate -> exit 
+    exit
+  end
+  
   #control if the player is in check
   is_check = is_in_check?(board, player)
   puts "***** #{player.name}, you\'re in check! *****" if is_check
