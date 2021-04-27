@@ -154,6 +154,7 @@ def delete_moves_that_cause_check(board, player)
   board.cells.each_with_index do |row, row_index|
     row.each_with_index do |cell, col_index|
       piece = cell.piece
+      moves_to_delete = []
 
       #select only the given player's pieces
       if piece.color == player.color
@@ -164,7 +165,7 @@ def delete_moves_that_cause_check(board, player)
             moves_to_delete << end_coords
           end
         end
-        piece.possible_moves = piece.possible_moves - moves_to_delete
+        piece.possible_moves -= moves_to_delete
       end
     end
   end
