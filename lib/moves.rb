@@ -1,4 +1,5 @@
 require_relative 'moves_helper.rb'
+require_relative 'board.rb'
 
 #returns the possible moves of a singular piece on the given board
 def get_cell_moves(board, coords)
@@ -99,7 +100,7 @@ def get_all_player_moves(board, color)
     end
   end
 
-  ret_array.uniq
+  ret_array
 end
 
 #returns the "front-end" coordinates given the @cells indexes
@@ -124,6 +125,7 @@ def is_in_check?(board, player)
   end
 end
 
+#returns an array of all the moves that cause a check
 def get_moves_that_cause_check(board, player)
   moves_to_delete = []
 
@@ -148,19 +150,44 @@ def get_moves_that_cause_check(board, player)
   moves_to_delete
 end
 
+def delete_moves_that_cause_check(board, player)
+  moves_to_delete = []
+
+  #cycle every cell of the board
+  board.cells.each_with_index do |row, row_index|
+    row.each_with_index do |cell, col_index|
+      piece = cell.piece
+
+      #select only the given player's pieces
+      if piece.color == player.color
+        start_coords = get_coords(row_index, col_index)
+        #cycle every piece's possible move
+        piece.possible_moves.each do |end_coords|
+          if causes_check?(board, player, start_coords, end_coords)
+            moves_to_delete << end_coords
+          end
+        end
+        piece.possible_moves = piece.possible_moves - moves_to_delete
+      end
+    end
+  end
+end
+
 def causes_check?(board, player, start_coords, end_coords)
+  temp_board = Board.new
+  temp_board.assign_pieces
+  temp_board.cells = Marshal.load(Marshal.dump(board.cells))
+
   #move the piece at the given coordinates
-  board.move_piece(start_coords, end_coords)
+  temp_board.move_piece(start_coords, end_coords)
+  assign_possible_moves(temp_board)
 
   #is it in check?
-  if is_in_check?(board, player)
+  if is_in_check?(temp_board, player)
     ret = true
   else
     ret = false
   end
-
-  #reset the board to its original state
-  board.move_piece(end_coords, start_coords)
 
   ret
 end

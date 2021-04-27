@@ -34,18 +34,19 @@ end
 
 def play_round(board, player)
   #calculate the legal moves
-  player_legal_moves = get_all_player_moves(board, player.color) - get_moves_that_cause_check(board, player)
+  #player_legal_moves = get_all_player_moves(board, player.color) - get_moves_that_cause_check(board, player)
+  delete_moves_that_cause_check(board, player)
 
   #control if the player is in checkmate
-  if player_legal_moves.empty?
+  #if player_legal_moves.empty?
+  if get_all_player_moves(board, player.color).empty?
     puts "#{player.name} lost!"
     #is in checkmate -> exit 
     exit
   end
   
   #control if the player is in check
-  is_check = is_in_check?(board, player)
-  puts "***** #{player.name}, you\'re in check! *****" if is_check
+  puts "***** #{player.name}, you\'re in check! *****" if is_in_check?(board, player)
 
   #inizialize coordinates
   start_coords = nil
@@ -73,7 +74,7 @@ def play_round(board, player)
     piece = board.cell_at(start_coords[0], start_coords[1]).piece
 
     #loop until the end cell is valid
-    break if piece.possible_moves.include?(end_coords)
+    break if piece.possible_moves.include?(end_coords) && !causes_check?(board, player, start_coords, end_coords)
 
     puts 'Insert a valid cell'
   end
