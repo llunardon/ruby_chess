@@ -137,7 +137,7 @@ class Board
   end
 
   def cell_at(row, col)
-    return nil if row < 1 || row > 8 
+    return nil if row.to_i < 1 || row.to_i > 8 
 
     #convert the ASCII code to the correct integer
     col_num = col[0].ord - 97

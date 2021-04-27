@@ -1,5 +1,4 @@
 require_relative 'moves_helper.rb'
-require_relative 'board.rb'
 
 #returns the possible moves of a singular piece on the given board
 def get_cell_moves(board, coords)
@@ -75,12 +74,10 @@ end
 #assign possible moves to every piece in the given board
 def assign_possible_moves(board)
   board.cells.each_with_index do |row, row_index|
-
     row.each_with_index do |cell, col_index|
       coords = get_coords(row_index, col_index)
       cell.piece.possible_moves = get_cell_moves(board, coords)
     end
-
   end
 end
 
@@ -171,12 +168,13 @@ def delete_moves_that_cause_check(board, player)
       end
     end
   end
+
+  moves_to_delete
 end
 
 def causes_check?(board, player, start_coords, end_coords)
-  temp_board = Board.new
-  temp_board.assign_pieces
-  temp_board.cells = Marshal.load(Marshal.dump(board.cells))
+  temp_board = Marshal.load(Marshal.dump(board))
+  assign_possible_moves(temp_board)
 
   #move the piece at the given coordinates
   temp_board.move_piece(start_coords, end_coords)
@@ -191,4 +189,3 @@ def causes_check?(board, player, start_coords, end_coords)
 
   ret
 end
-
