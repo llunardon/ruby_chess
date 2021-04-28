@@ -187,10 +187,6 @@ class Board
     #if something went wrong
     return nil
   end
-
-  def get_coords(row, col)
-    [8 - row, (col + 97).chr]
-  end
 end
 
 

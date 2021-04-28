@@ -1,6 +1,7 @@
 require_relative 'moves_helper.rb'
 
 #returns the possible moves of a singular piece on the given board
+#doesnt check if the move is legal, it'll be removed in main.rb
 def get_cell_moves(board, coords)
   piece = board.cell_at(coords[0], coords[1]).piece
   possible_moves = []
@@ -122,49 +123,31 @@ def is_in_check?(board, player)
   end
 end
 
-#returns an array of all the moves that cause a check
-def get_moves_that_cause_check(board, player)
-  moves_to_delete = []
-
-  #cycle every cell of the board
-  board.cells.each_with_index do |row, row_index|
-    row.each_with_index do |cell, col_index|
-      piece = cell.piece
-
-      #select only the given player's pieces
-      if piece.color == player.color
-        start_coords = get_coords(row_index, col_index)
-        #cycle every piece's possible move
-        piece.possible_moves.each do |end_coords|
-          if causes_check?(board, player, start_coords, end_coords)
-            moves_to_delete << end_coords
-          end
-        end
-      end
-    end
-  end
-
-  moves_to_delete
-end
-
+#remove a player's illegal moves from a board
 def delete_moves_that_cause_check(board, player)
   moves_to_delete = []
 
   #cycle every cell of the board
   board.cells.each_with_index do |row, row_index|
     row.each_with_index do |cell, col_index|
+      #get the piece at the current cell
       piece = cell.piece
+      #reset the array
       moves_to_delete = []
 
       #select only the given player's pieces
       if piece.color == player.color
         start_coords = get_coords(row_index, col_index)
+
         #cycle every piece's possible move
         piece.possible_moves.each do |end_coords|
+          #check if the move is illegal, if it is the add it to the array
           if causes_check?(board, player, start_coords, end_coords)
             moves_to_delete << end_coords
           end
         end
+
+        #subtract the illegal moves
         piece.possible_moves -= moves_to_delete
       end
     end
@@ -173,6 +156,7 @@ def delete_moves_that_cause_check(board, player)
   moves_to_delete
 end
 
+#returns true if a move is illegal
 def causes_check?(board, player, start_coords, end_coords)
   temp_board = Marshal.load(Marshal.dump(board))
   assign_possible_moves(temp_board)
@@ -182,11 +166,5 @@ def causes_check?(board, player, start_coords, end_coords)
   assign_possible_moves(temp_board)
 
   #is it in check?
-  if is_in_check?(temp_board, player)
-    ret = true
-  else
-    ret = false
-  end
-
-  ret
+  is_in_check?(temp_board, player)
 end
