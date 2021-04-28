@@ -1,27 +1,15 @@
 require_relative 'player.rb'
 require_relative 'board.rb'
 require_relative 'moves.rb'
+require 'yaml'
+require 'pathname'
 
 class Game
-    def intialize()
-      @player1 = Player.new
-      puts "#{@player1.name}, what color do you choose?"
-      @player1.color = gets.chomp.downcase
-      until @player1.color == 'black' || @player1.color == 'white' do
-        @player1.color = gets.chomp.downcase
-      end
+  attr_accessor :board, :player1, :player2
 
-      #create player 2 and assign them the opposite color
-      @player2 = Player.new
-      @player1.color == 'white' ? @player2.color = 'black' : @player2.color = 'white'
-
-      #inizialize board 
-      @board = Board.new
-      @board.print_board
-      assign_possible_moves(@board)
-    end
-
-    def play_game()
+  def play_game(choice)
+    #chose to create a new game
+    if choice == 'new' 
       #create player 1 and let them choose the color
       @player1 = Player.new
       puts "#{@player1.name}, what color do you choose?"
@@ -38,17 +26,26 @@ class Game
       @board = Board.new
       @board.print_board
       assign_possible_moves(@board)
+    #choice to load a previous game
+    elsif choice == 'load' 
+      yaml = Game.load_game
+      @board = yaml.board
+      @player1 = yaml.player1
+      @player2 = yaml.player2
+      @board.print_board
+      assign_possible_moves(@board)
+    end
 
-      #play rounds
-      loop do
-        if @player1.color == 'white'
-          play_round(@board, @player1)
-          play_round(@board, @player2)
-        else
-          play_round(@board, @player2)
-          play_round(@board, @player1)
-        end
+    #play rounds
+    loop do
+      if @player1.color == 'white'
+        play_round(@board, @player1)
+        play_round(@board, @player2)
+      else
+        play_round(@board, @player2)
+        play_round(@board, @player1)
       end
+    end
   end
 
   def play_round(board, player)
@@ -70,7 +67,7 @@ class Game
     end_coords = nil
 
     #get the coordinates of the piece to move
-    puts "It is #{player.name}\'s turn. Choose a piece to move:"
+    puts "It is #{player.name}\'s turn. Choose a piece to move or type \"quit\". The game will be saved automatically every two turns."
     puts "Insert the row and column separated by a comma"
     loop do
       start_coords = get_input_coords(board)
@@ -92,7 +89,6 @@ class Game
       end_coords = get_input_coords(board)
 
       #loop until the end cell is valid
-      #break if piece.possible_moves.include?(end_coords) && !(causes_check?(board, player, start_coords, end_coords))
       break if piece.possible_moves.include?(end_coords) 
 
       puts 'Insert a legal move'
@@ -104,28 +100,49 @@ class Game
 
     #update the possible moves
     assign_possible_moves(board)
+
+    Game.save_game(self) if player.color == 'black'
   end
 
   #receive the coordinates in stdin
   def get_input_coords(board)
     loop do
       input = gets.chomp
-
-      if input == 'save'
-        puts 'So you want to save the game uh?'
-      end
+      #the player wants to quit the game
+      exit if input.downcase == 'quit'
 
       input = input.split(',') 
       #clean up the input
-      input[1] = input[1].to_s.strip 
       input[0] = input[0].to_i 
+      input[1] = input[1].to_s.strip 
 
       return input if board.check_if_valid_coords(input)
 
       puts 'Insert valid coordinates'
     end
   end
+
+  def self.save_game(game)
+    File.open('save_file.yml', 'w') {|f| f.write game.to_yaml }
+  end
+
+  def self.load_game()
+    yaml = YAML.load_file('save_file.yml')
+  end
+end
+
+puts "Do you want to start a new game or load the saved one? Type \"new\" or \"load\""
+input = ''
+loop do
+  input = gets.chomp
+  break if input == 'new' || input == 'load'
+end
+
+if input == 'load' && !(File.file?('save_file.yml'))
+  puts 'the save file does not exist, creating a new game.'
+  input = 'new'
 end
 
 game = Game.new
-game.play_game
+game.play_game(input)
+

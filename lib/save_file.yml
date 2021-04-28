@@ -1,0 +1,409 @@
+--- !ruby/object:Game
+player1: !ruby/object:Player
+  name: lore
+  color: white
+player2: !ruby/object:Player
+  name: fra
+  color: black
+board: !ruby/object:Board
+  cells:
+  - - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: rook
+        color: black
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: knight
+        color: black
+        possible_moves:
+        - - 6
+          - c
+        - - 6
+          - a
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: bishop
+        color: black
+        possible_moves:
+        - - 7
+          - b
+        - - 6
+          - a
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: queen
+        color: black
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: king
+        color: black
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: bishop
+        color: black
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: knight
+        color: black
+        possible_moves:
+        - - 6
+          - h
+        - - 6
+          - f
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: rook
+        color: black
+        possible_moves: []
+  - - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: black
+        possible_moves:
+        - - 6
+          - a
+        - - 5
+          - a
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: black
+        possible_moves:
+        - - 6
+          - c
+        - - 5
+          - c
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: black
+        possible_moves:
+        - - 6
+          - d
+        - - 5
+          - d
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: black
+        possible_moves:
+        - - 6
+          - e
+        - - 5
+          - e
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: black
+        possible_moves:
+        - - 6
+          - f
+        - - 5
+          - f
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: black
+        possible_moves:
+        - - 6
+          - g
+        - - 5
+          - g
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: black
+        possible_moves:
+        - - 6
+          - h
+        - - 5
+          - h
+  - - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: black
+        possible_moves:
+        - - 5
+          - b
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+  - - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+  - - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+  - - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: white
+        possible_moves:
+        - - 4
+          - a
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+  - - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: none
+        color: none
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: white
+        possible_moves:
+        - - 3
+          - b
+        - - 4
+          - b
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: white
+        possible_moves:
+        - - 3
+          - c
+        - - 4
+          - c
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: white
+        possible_moves:
+        - - 3
+          - d
+        - - 4
+          - d
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: white
+        possible_moves:
+        - - 3
+          - e
+        - - 4
+          - e
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: white
+        possible_moves:
+        - - 3
+          - f
+        - - 4
+          - f
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: white
+        possible_moves:
+        - - 3
+          - g
+        - - 4
+          - g
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: pawn
+        color: white
+        possible_moves:
+        - - 3
+          - h
+        - - 4
+          - h
+  - - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: rook
+        color: white
+        possible_moves:
+        - - 2
+          - a
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: knight
+        color: white
+        possible_moves:
+        - - 3
+          - c
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: bishop
+        color: white
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: queen
+        color: white
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: king
+        color: white
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: bishop
+        color: white
+        possible_moves: []
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: knight
+        color: white
+        possible_moves:
+        - - 3
+          - h
+        - - 3
+          - f
+    - !ruby/object:Cell
+      piece: !ruby/object:Piece
+        name: rook
+        color: white
+        possible_moves: []

@@ -158,6 +158,7 @@ end
 
 #returns true if a move is illegal
 def causes_check?(board, player, start_coords, end_coords)
+  #creates a temporary board to test the given move
   temp_board = Marshal.load(Marshal.dump(board))
   assign_possible_moves(temp_board)
 
