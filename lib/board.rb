@@ -175,18 +175,43 @@ class Board
 
   #return the 'front end' coordinates of the king of the given color
   def find_king(color)
-    @cells.each_with_index do |row, row_index|
-      row.each_with_index do |cell, col_index|
-        piece = cell.piece
-        if piece.name == 'king' && piece.color == color
-          return get_coords(row_index, col_index)
-        end
+    each_cell_with_index do |cell, row_index, col_index|
+      piece = cell.piece
+      if piece.name == 'king' && piece.color == color
+        return get_coords(row_index, col_index)
       end
     end
 
     #if something went wrong
     return nil
   end
+
+  #cycle through every cell
+  def each_cell()
+    @cells.each do |row|
+      row.each do |cell|
+          yield(cell)
+      end
+    end
+  end
+
+  #cycle through every cell with indexes
+  def each_cell_with_index()
+    @cells.each_with_index do |row, row_index|
+      row.each_with_index do |cell, col_index|
+          yield(cell, row_index, col_index)
+      end
+    end
+  end
+
+  #returns the "front-end" coordinates given the @cells indexes
+  def get_coords(row, col)
+    [8 - row, (col + 97).chr]
+  end
 end
 
-
+#board = Board.new
+#board.assign_pieces
+#board.print_board
+#p board.find_king('white')
+#p board.find_king('black')

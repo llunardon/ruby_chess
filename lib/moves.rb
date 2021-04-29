@@ -74,11 +74,8 @@ end
 
 #assign possible moves to every piece in the given board
 def assign_possible_moves(board)
-  board.cells.each_with_index do |row, row_index|
-    row.each_with_index do |cell, col_index|
-      coords = get_coords(row_index, col_index)
-      cell.piece.possible_moves = get_cell_moves(board, coords)
-    end
+  board.each_cell_with_index do |cell, row_index, col_index|
+    cell.piece.possible_moves = get_cell_moves(board, get_coords(row_index, col_index))
   end
 end
 
@@ -86,16 +83,9 @@ end
 def get_all_player_moves(board, color)
   ret_array = []
 
-  board.cells.each_with_index do |row, row_index|
-    row.each_with_index do |col, col_index|
-      piece = board.cells[row_index][col_index].piece
-      
-      if piece.color == color
-        piece.possible_moves.each do |coord|
-          ret_array << coord
-        end
-      end
-    end
+  board.each_cell_with_index do |cell, row_index, col_index|
+    piece = cell.piece
+    piece.possible_moves.each { |coord| ret_array << coord } if piece.color == color
   end
 
   ret_array
@@ -128,32 +118,26 @@ def delete_moves_that_cause_check(board, player)
   moves_to_delete = []
 
   #cycle every cell of the board
-  board.cells.each_with_index do |row, row_index|
-    row.each_with_index do |cell, col_index|
-      #get the piece at the current cell
-      piece = cell.piece
-      #reset the array
-      moves_to_delete = []
+  board.each_cell_with_index do |cell, row_index, col_index|
+    #get the piece at the current cell
+    piece = cell.piece
+    #reset the array
+    moves_to_delete = []
 
-      #select only the given player's pieces
-      if piece.color == player.color
-        start_coords = get_coords(row_index, col_index)
+    #select only the given player's pieces
+    if piece.color == player.color
+      start_coords = get_coords(row_index, col_index)
 
-        #cycle every piece's possible move
-        piece.possible_moves.each do |end_coords|
-          #check if the move is illegal, if it is the add it to the array
-          if causes_check?(board, player, start_coords, end_coords)
-            moves_to_delete << end_coords
-          end
-        end
-
-        #subtract the illegal moves
-        piece.possible_moves -= moves_to_delete
+      #cycle every piece's possible move
+      piece.possible_moves.each do |end_coords|
+        #check if the move is illegal, if it is the add it to the array
+        moves_to_delete << end_coords if causes_check?(board, player, start_coords, end_coords)
       end
+
+      #subtract the illegal moves
+      piece.possible_moves -= moves_to_delete
     end
   end
-
-  moves_to_delete
 end
 
 #returns true if a move is illegal
