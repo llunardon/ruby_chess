@@ -75,7 +75,15 @@ end
 #assign possible moves to every piece in the given board
 def assign_possible_moves(board)
   board.each_cell_with_index do |cell, row_index, col_index|
-    cell.piece.possible_moves = get_cell_moves(board, get_coords(row_index, col_index))
+    piece = cell.piece
+
+    #turn pawn into queen if it reaches the opposite end
+    if piece.name == 'pawn'
+      piece.name = 'queen' if piece.color == 'white' && row_index == 0
+      piece.name = 'queen' if piece.color == 'black' && row_index == 7
+    end
+
+    piece.possible_moves = get_cell_moves(board, get_coords(row_index, col_index))
   end
 end
 
@@ -152,4 +160,7 @@ def causes_check?(board, player, start_coords, end_coords)
 
   #is it in check?
   is_in_check?(temp_board, player)
+end
+
+def is_pawn_
 end

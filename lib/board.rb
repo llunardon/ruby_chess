@@ -209,9 +209,3 @@ class Board
     [8 - row, (col + 97).chr]
   end
 end
-
-#board = Board.new
-#board.assign_pieces
-#board.print_board
-#p board.find_king('white')
-#p board.find_king('black')

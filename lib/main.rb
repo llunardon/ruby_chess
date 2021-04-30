@@ -96,11 +96,11 @@ class Game
 
     #move the selected piece to the target cell
     board.move_piece(start_coords, end_coords)
-    board.print_board
 
     #update the possible moves
     assign_possible_moves(board)
 
+    board.print_board
     Game.save_game(self) if player.color == 'black'
   end
 
