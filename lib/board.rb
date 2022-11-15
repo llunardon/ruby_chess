@@ -1,4 +1,4 @@
-#lib/board.rb
+# lib/board.rb
 
 require_relative 'cell.rb'
 
@@ -6,22 +6,17 @@ class Board
   attr_accessor :cells
 
   def initialize()
-    @cells = [
-      Array.new(8) { Cell.new },
-      Array.new(8) { Cell.new },
-      Array.new(8) { Cell.new },
-      Array.new(8) { Cell.new },
-      Array.new(8) { Cell.new },
-      Array.new(8) { Cell.new },
-      Array.new(8) { Cell.new },
-      Array.new(8) { Cell.new }
-    ]
+    @cells = Array.new(8)
+
+    for i in 0..7 do
+      @cells[i] = Array.new(8) { Cell.new }
+    end
 
     assign_pieces
   end
 
   def assign_pieces()
-    #assign white pieces
+    # assign white pieces
     cell_at(1, 'a').piece.set('rook', 'white')
     cell_at(1, 'h').piece.set('rook', 'white')
     cell_at(1, 'b').piece.set('knight', 'white')
@@ -34,7 +29,7 @@ class Board
       cell.piece.set('pawn', 'white')
     end
 
-    #assign black pieces
+    # assign black pieces
     cell_at(8, 'a').piece.set('rook', 'black')
     cell_at(8, 'h').piece.set('rook', 'black')
     cell_at(8, 'b').piece.set('knight', 'black')
@@ -49,8 +44,8 @@ class Board
   end
 
   def print_board()
-    #unicode values
-    #white characters
+    # unicode values
+    # white characters
     black_rook = "\u2656"
     black_knight = "\u2658"
     black_bishop = "\u2657"
@@ -58,7 +53,7 @@ class Board
     black_king = "\u2654"
     black_pawn = "\u2659"
 
-    #black characters
+    # black characters
     white_rook = "\u265c"
     white_knight = "\u265e"
     white_bishop = "\u265d"
@@ -66,20 +61,20 @@ class Board
     white_king = "\u265a"
     white_pawn = "\u265f"
 
-    #print columns indexes
+    # print columns indexes
     puts '  a b c d e f g h  '
     puts ' _________________ '
 
-    #iterate over every row
+    # iterate over every row
     @cells.each_with_index do |row, index|
-      #print row index
+      # print row index
       print (8-index).to_s
       print '|'
 
-      #iterate over every column
+      # iterate over every column
       row.each do |cell|
-        #switch statement, checks the piece's name and color
-        #and prints the corrispondent unicode character
+        # switch statement, checks the piece's name and color
+        # and prints the corrispondent unicode character
         case cell.piece.name
         when 'rook'
           if cell.piece.color == 'white'
@@ -139,20 +134,20 @@ class Board
   def cell_at(row, col)
     return nil if row.to_i < 1 || row.to_i > 8 
 
-    #convert the ASCII code to the correct integer
+    # convert the ASCII code to the correct integer
     col_num = col[0].ord - 97
     return nil if col_num < 0 || col_num > 7
 
-    #white king is in row 1 at the beginning
-    #black king is in row 8 at the beginning
+    # white king is in row 1 at the beginning
+    # black king is in row 8 at the beginning
     @cells[8-row][col_num]
   end
 
   def check_if_valid_coords(coords)
-    #check row index
+    # check row index
     return false if coords[0] < 1 || coords[0] > 8 
 
-    #check column index
+    # check column index
     col_index = coords[1][0].ord - 97
     return false if col_index < 0 || col_index > 7
 
@@ -163,17 +158,17 @@ class Board
     return nil unless check_if_valid_coords(start_coords)
     return nil unless check_if_valid_coords(end_coords)
 
-    #get the piece in the starting cell
+    # get the piece in the starting cell
     piece = cell_at(start_coords[0], start_coords[1]).piece
 
-    #change values of ending cell equal to those of the starting cell
+    # change values of ending cell equal to those of the starting cell
     cell_at(end_coords[0], end_coords[1]).piece.set(piece.name, piece.color)
 
-    #set starting cell to empty
+    # set starting cell to empty
     cell_at(start_coords[0], start_coords[1]).piece.set('none', 'none')
   end
 
-  #return the 'front end' coordinates of the king of the given color
+  # return the 'front end' coordinates of the king of the given color
   def find_king(color)
     each_cell_with_index do |cell, row_index, col_index|
       piece = cell.piece
@@ -182,11 +177,11 @@ class Board
       end
     end
 
-    #if something went wrong
+    # if something went wrong
     return nil
   end
 
-  #cycle through every cell
+  # cycle through every cell
   def each_cell()
     @cells.each do |row|
       row.each do |cell|
@@ -195,7 +190,7 @@ class Board
     end
   end
 
-  #cycle through every cell with indexes
+  # cycle through every cell with indexes
   def each_cell_with_index()
     @cells.each_with_index do |row, row_index|
       row.each_with_index do |cell, col_index|
@@ -204,7 +199,7 @@ class Board
     end
   end
 
-  #returns the "front-end" coordinates given the @cells indexes
+  # returns the "front-end" coordinates given the @cells indexes
   def get_coords(row, col)
     [8 - row, (col + 97).chr]
   end

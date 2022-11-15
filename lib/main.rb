@@ -50,10 +50,9 @@ class Game
     # remove illegal moves
     delete_moves_that_cause_check(board, player)
 
-    # control if the player is in checkmate
+    # control if the player is in checkmate and exit if yes
     if get_all_player_moves(board, player.color).empty?
       puts "#{player.name} lost!"
-      # player is in checkmate -> exit 
       exit
     end
 
@@ -82,7 +81,7 @@ class Game
     puts "Where do you want to move it?"
     loop do
       piece = board.cell_at(start_coords[0], start_coords[1]).piece
-      puts "possible moves: " + piece.possible_moves.to_s
+      puts "possible moves: " + piece.possible_moves.to_s[1...-1]
 
       end_coords = get_input_coords(board)
 
@@ -106,6 +105,7 @@ class Game
   def get_input_coords(board)
     loop do
       input = gets.chomp
+
       # the player wants to quit the game
       exit if input.downcase == 'quit'
 
@@ -129,6 +129,7 @@ class Game
   end
 end
 
+# ask choice
 puts "Do you want to start a new game or load the saved one? Type \"new\" or \"load\""
 choice = ''
 loop do
@@ -141,5 +142,6 @@ if choice == 'load' && !(File.file?('save_file.yml'))
   choice = 'new'
 end
 
+# start the actual game
 game = Game.new
 game.play_game(choice)
