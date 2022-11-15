@@ -1,6 +1,6 @@
 # Command line chess
 
-Usage: just type: 
+Usage: just type
 
     ruby main.rb
 
