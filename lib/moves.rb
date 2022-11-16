@@ -1,7 +1,7 @@
 require_relative 'moves_helper.rb'
 
-#returns the possible moves of a singular piece on the given board
-#doesnt check if the move is legal, it'll be removed in main.rb
+# returns the possible moves of a singular piece on the given board
+# doesn't check if the move is legal, it will be removed in main.rb
 def get_cell_moves(board, coords)
   piece = board.cell_at(coords[0], coords[1]).piece
   possible_moves = []
@@ -9,62 +9,62 @@ def get_cell_moves(board, coords)
   row = 8 - coords[0]
   col = coords[1][0].ord - 97
   
-  #switch statement
+  # switch statement
   case 
-  #white pawn
+  # white pawn
   when piece.name == 'pawn' && piece.color == 'white'
     white_pawn_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
 
-  #black pawn
+  # black pawn
   when piece.name == 'pawn' && piece.color == 'black'
     black_pawn_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
     
-  #rook
+  # rook
   when piece.name == 'rook'
-    #add possible moves in the upward direction
-    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-    #add possible moves in the downward direction
-    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
-    #add possible moves in the right direction
+    # add possible moves in the upward direction
+    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    # add possible moves in the downward direction
+    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate } 
+    # add possible moves in the right direction
     horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    #add possible moves in the left direction
+    # add possible moves in the left direction
     horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
 
-  #bishop
+  # bishop
   when piece.name == 'bishop'
-    #add possible moves in the up-right direction
-    upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-    #add possible moves in the up-left direction
-    upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
-    #add possible moves in the down-right direction
+    # add possible moves in the up-right direction
+    upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    # add possible moves in the up-left direction
+    upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate } 
+    # add possible moves in the down-right direction
     downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    #add possible moves in the down-left direction
+    # add possible moves in the down-left direction
     downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
 
-  #knight
+  # knight
   when piece.name == 'knight'
     knight_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
 
-  #queen
+  # queen
   when piece.name == 'queen'
-    #add possible moves in the upward direction
-    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-    #add possible moves in the downward direction
-    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
-    #add possible moves in the right direction
+    # add possible moves in the upward direction
+    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    # add possible moves in the downward direction
+    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate } 
+    # add possible moves in the right direction
     horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    #add possible moves in the left direction
+    # add possible moves in the left direction
     horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    #add possible moves in the up-right direction
+    # add possible moves in the up-right direction
     upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-    #add possible moves in the up-left direction
+    # add possible moves in the up-left direction
     upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
-    #add possible moves in the down-right direction
+    # add possible moves in the down-right direction
     downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    #add possible moves in the down-left direction
+    # add possible moves in the down-left direction
     downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
 
-  #king
+  # king
   when piece.name == 'king'
     king_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
 
@@ -72,12 +72,12 @@ def get_cell_moves(board, coords)
   possible_moves
 end
 
-#assign possible moves to every piece in the given board
+# assign possible moves to every piece in the given board
 def assign_possible_moves(board)
   board.each_cell_with_index do |cell, row_index, col_index|
     piece = cell.piece
 
-    #turn pawn into queen if it reaches the opposite end
+    # turn pawn into queen if it reaches the opposite end
     if piece.name == 'pawn'
       piece.name = 'queen' if piece.color == 'white' && row_index == 0
       piece.name = 'queen' if piece.color == 'black' && row_index == 7
@@ -87,7 +87,7 @@ def assign_possible_moves(board)
   end
 end
 
-#returns an array with all the possible moves a player can do
+# returns an array with all the possible moves a player can do
 def get_all_player_moves(board, color)
   ret_array = []
 
@@ -99,12 +99,12 @@ def get_all_player_moves(board, color)
   ret_array
 end
 
-#returns the "front-end" coordinates given the @cells indexes
+# returns the "front-end" coordinates given the @cells indexes
 def get_coords(row, col)
   [8 - row, (col + 97).chr]
 end
 
-#returns a boolean that indicates if the player's king is in check
+# returns a boolean that indicates if the player's king is in check
 def is_in_check?(board, player)
   if player.color == 'white'
     opp_color = 'black'
@@ -121,46 +121,43 @@ def is_in_check?(board, player)
   end
 end
 
-#remove a player's illegal moves from a board
+# remove a player's illegal moves from a board
 def delete_moves_that_cause_check(board, player)
   moves_to_delete = []
 
-  #cycle every cell of the board
+  # cycle every cell of the board
   board.each_cell_with_index do |cell, row_index, col_index|
-    #get the piece at the current cell
+    # get the piece at the current cell
     piece = cell.piece
-    #reset the array
+    # reset the array
     moves_to_delete = []
 
-    #select only the given player's pieces
+    # select only the given player's pieces
     if piece.color == player.color
       start_coords = get_coords(row_index, col_index)
 
-      #cycle every piece's possible move
+      # cycle every piece's possible move
       piece.possible_moves.each do |end_coords|
-        #check if the move is illegal, if it is the add it to the array
+        # check if the move is illegal, if it is the add it to the array
         moves_to_delete << end_coords if causes_check?(board, player, start_coords, end_coords)
       end
 
-      #subtract the illegal moves
+      # subtract the illegal moves
       piece.possible_moves -= moves_to_delete
     end
   end
 end
 
-#returns true if a move is illegal
+# returns true if a move is illegal
 def causes_check?(board, player, start_coords, end_coords)
-  #creates a temporary board to test the given move
+  # creates a temporary board to test the given move
   temp_board = Marshal.load(Marshal.dump(board))
   assign_possible_moves(temp_board)
 
-  #move the piece at the given coordinates
+  # move the piece at the given coordinates
   temp_board.move_piece(start_coords, end_coords)
   assign_possible_moves(temp_board)
 
-  #is it in check?
+  # is it in check?
   is_in_check?(temp_board, player)
-end
-
-def is_pawn_
 end

@@ -3,16 +3,16 @@ def white_pawn_moves(board, row, col)
 
   if board.cells[row - 1][col].piece.color == 'none' && row == 6
     ret_array << [8 - row + 1, (col + 97).chr] 
-    #pawn is in the starting position, so it can move two cells up if the cell is empty
+    # pawn is in the starting position, so it can move two cells up if the cell is empty
     ret_array << [8 - row + 2, (col + 97).chr] if board.cells[row - 2][col].piece.color == 'none'
   elsif board.cells[row - 1][col].piece.color == 'none' && row > 0
     ret_array << [8 - row + 1, (col + 97).chr] 
   end
-  #pawn has opponent piece to its left, upward
+  # pawn has opponent piece to its left, upward
   if row > 0 && col > 0 && board.cells[row - 1][col - 1].piece.color == 'black'
     ret_array << [8 - row + 1, (col - 1 + 97).chr]
   end
-  #pawn has opponent piece to its right, upward
+  # pawn has opponent piece to its right, upward
   if row > 0 && col < 7 && board.cells[row - 1][col + 1].piece.color == 'black'
     ret_array << [8 - row + 1, (col + 1 + 97).chr]
   end
@@ -23,19 +23,19 @@ end
 def black_pawn_moves(board, row, col)
   ret_array = []
 
-  #pawn can move downward
+  # pawn can move downward
   if row == 1 && board.cells[row + 1][col].piece.color == 'none' 
     ret_array << [8 - row - 1, (col + 97).chr] 
-    #pawn is in the starting position, so it can move two cells down if the cell is empty
+    # pawn is in the starting position, so it can move two cells down if the cell is empty
     ret_array << [8 - row - 2, (col + 97).chr] if board.cells[row + 2][col].piece.color == 'none'
   elsif row < 7 && board.cells[row + 1][col].piece.color == 'none' 
     ret_array << [8 - row - 1, (col + 97).chr] 
   end
-  #pawn has opponent piece to its left, downward
+  # pawn has opponent piece to its left, downward
   if row < 7 && col > 0 && board.cells[row + 1][col - 1].piece.color == 'white'
     ret_array << [8 - row - 1, (col - 1 + 97).chr]
   end
-  #pawn has opponent piece to its right, downward
+  # pawn has opponent piece to its right, downward
   if row < 7 && col < 7 && board.cells[row + 1][col + 1].piece.color == 'white'
     ret_array << [8 - row - 1, (col + 1 + 97).chr]
   end
@@ -44,10 +44,10 @@ def black_pawn_moves(board, row, col)
 end
 
 def vertical_upward_moves(board, row, col)
-  #get the piece at the given coordinates
+  # get the piece at the given coordinates
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -58,7 +58,7 @@ def vertical_upward_moves(board, row, col)
 
   return ret_array if row == 0
 
-  #loop until it reaches the border
+  # loop until it reaches the border
   loop do
     upper_cell = board.cells[row - 1][col]
 
@@ -72,7 +72,7 @@ def vertical_upward_moves(board, row, col)
     end
 
     row -= 1
-    #exit loop if it reaches the first row
+    # exit loop if it reaches the first row
     break if row == 0
   end
 
@@ -82,7 +82,7 @@ end
 def vertical_downward_moves(board, row, col)
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -106,7 +106,7 @@ def vertical_downward_moves(board, row, col)
     end
 
     row += 1
-    #exit loop if it reaches the first row
+    # exit loop if it reaches the first row
     break if row == 7 
   end
 
@@ -116,7 +116,7 @@ end
 def horizontal_right_moves(board, row, col)
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -140,7 +140,7 @@ def horizontal_right_moves(board, row, col)
     end
 
     col += 1
-    #exit loop if it reaches the first row
+    # exit loop if it reaches the first row
     break if col == 7 
   end
 
@@ -150,7 +150,7 @@ end
 def horizontal_left_moves(board, row, col)
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -174,7 +174,7 @@ def horizontal_left_moves(board, row, col)
     end
 
     col -= 1
-    #exit loop if it reaches the first row
+    # exit loop if it reaches the first row
     break if col == 0 
   end
 
@@ -182,10 +182,10 @@ def horizontal_left_moves(board, row, col)
 end
 
 def upward_right_moves(board, row, col)
-  #get the piece at the given coordinates
+  # get the piece at the given coordinates
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -194,7 +194,7 @@ def upward_right_moves(board, row, col)
 
   ret_array = []
 
-  #loop until it reaches the border
+  # loop until it reaches the border
   loop do
     break if row == 0 || col == 7
 
@@ -211,17 +211,17 @@ def upward_right_moves(board, row, col)
 
     row -= 1
     col += 1
-    #exit loop if it reaches the first row or the last column
+    # exit loop if it reaches the first row or the last column
   end
 
   ret_array
 end
 
 def upward_left_moves(board, row, col)
-  #get the piece at the given coordinates
+  # get the piece at the given coordinates
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -230,7 +230,7 @@ def upward_left_moves(board, row, col)
 
   ret_array = []
 
-  #loop until it reaches the border
+  # loop until it reaches the border
   loop do
     break if row == 0 || col == 0
 
@@ -247,17 +247,17 @@ def upward_left_moves(board, row, col)
 
     row -= 1
     col -= 1
-    #exit loop if it reaches the first row or the last column
+    # exit loop if it reaches the first row or the last column
   end
 
   ret_array
 end
 
 def downward_right_moves(board, row, col)
-  #get the piece at the given coordinates
+  # get the piece at the given coordinates
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -266,7 +266,7 @@ def downward_right_moves(board, row, col)
 
   ret_array = []
 
-  #loop until it reaches the border
+  # loop until it reaches the border
   loop do
     break if row == 7 || col == 7
 
@@ -283,17 +283,17 @@ def downward_right_moves(board, row, col)
 
     row += 1
     col += 1
-    #exit loop if it reaches the first row or the last column
+    # exit loop if it reaches the first row or the last column
   end
 
   ret_array
 end
 
 def downward_left_moves(board, row, col)
-  #get the piece at the given coordinates
+  # get the piece at the given coordinates
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -302,7 +302,7 @@ def downward_left_moves(board, row, col)
 
   ret_array = []
 
-  #loop until it reaches the border
+  # loop until it reaches the border
   loop do
     break if row == 7 || col == 0
 
@@ -319,17 +319,17 @@ def downward_left_moves(board, row, col)
 
     row += 1
     col -= 1
-    #exit loop if it reaches the first row or the last column
+    # exit loop if it reaches the first row or the last column
   end
 
   ret_array
 end
 
 def knight_moves(board, row, col)
-  #get the piece at the given coordinates
+  # get the piece at the given coordinates
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -338,42 +338,42 @@ def knight_moves(board, row, col)
 
   ret_array = []
 
-  #two rows up, one column right
+  # two rows up, one column right
   if row > 1 && col < 7 && board.cells[row - 2][col + 1].piece.color != piece.color
     ret_array << [8 - row + 2, (col + 97 + 1).chr]
   end
 
-  #one row up, two columns right
+  # one row up, two columns right
   if row > 0 && col < 6 && board.cells[row - 1][col + 2].piece.color != piece.color
     ret_array << [8 - row + 1, (col + 97 + 2).chr]
   end
 
-  #two rows up, one column left
+  # two rows up, one column left
   if row > 1 && col > 0 && board.cells[row - 2][col - 1].piece.color != piece.color
     ret_array << [8 - row + 2, (col + 97 - 1).chr]
   end
 
-  #one row up, two columns left
+  # one row up, two columns left
   if row > 0 && col > 1 && board.cells[row - 1][col - 2].piece.color != piece.color
     ret_array << [8 - row + 1, (col + 97 - 2).chr]
   end
 
-  #two rows down, one column right
+  # two rows down, one column right
   if row < 6 && col < 7 && board.cells[row + 2][col + 1].piece.color != piece.color
     ret_array << [8 - row - 2, (col + 97 + 1).chr]
   end
 
-  #one row down, two columns right
+  # one row down, two columns right
   if row < 7 && col < 6 && board.cells[row + 1][col + 2].piece.color != piece.color
     ret_array << [8 - row - 1, (col + 97 + 2).chr]
   end
 
-  #two rows down, one column left
+  # two rows down, one column left
   if row < 6 && col > 0 && board.cells[row + 2][col - 1].piece.color != piece.color
     ret_array << [8 - row - 2, (col + 97 - 1).chr]
   end
 
-  #one row down, two columns left
+  # one row down, two columns left
   if row < 7 && col > 1 && board.cells[row + 1][col - 2].piece.color != piece.color
     ret_array << [8 - row - 1, (col + 97 - 2).chr]
   end
@@ -382,10 +382,10 @@ def knight_moves(board, row, col)
 end
 
 def king_moves(board, row, col)
-  #get the piece at the given coordinates
+  # get the piece at the given coordinates
   piece = board.cells[row][col].piece
 
-  #find the opponent's color
+  # find the opponent's color
   if piece.color == 'white'
     opp_color = 'black'
   else
@@ -394,46 +394,45 @@ def king_moves(board, row, col)
 
   ret_array = []
 
-  #up
+  # up
   if row > 0 && board.cells[row - 1][col].piece.color != piece.color
     ret_array << [8 - row + 1, (col + 97 ).chr]
   end
 
-  #down
+  # down
   if row < 7 && board.cells[row + 1][col].piece.color != piece.color
     ret_array << [8 - row - 1, (col + 97).chr]
   end
 
-  #right
+  # right
   if col < 7 && board.cells[row][col + 1].piece.color != piece.color
     ret_array << [8 - row, (col + 97 + 1).chr]
   end
 
-  #left
+  # left
   if col > 0 && board.cells[row][col - 1].piece.color != piece.color
     ret_array << [8 - row, (col + 97 - 1).chr]
   end
 
-  #up-right 
+  # up-right 
   if row > 0 && col < 7 && board.cells[row - 1][col + 1].piece.color != piece.color
     ret_array << [8 - row + 1, (col + 97 + 1).chr]
   end
 
-  #up-left
+  # up-left
   if row > 0 && col > 0 && board.cells[row - 1][col - 1].piece.color != piece.color
     ret_array << [8 - row + 1, (col + 97 - 1).chr]
   end
 
-  #down-right
+  # down-right
   if row < 7 && col < 7 && board.cells[row + 1][col + 1].piece.color != piece.color
     ret_array << [8 - row - 1, (col + 97 + 1).chr]
   end
 
-  #down-left
+  # down-left
   if row < 7 && col > 0 && board.cells[row + 1][col - 1].piece.color != piece.color
     ret_array << [8 - row - 1, (col + 97 - 1).chr]
   end
 
   ret_array
 end
-
