@@ -139,37 +139,33 @@ end
 def long_moves(directions_list, board, row, col)
   possible_moves = []
   
-  if directions_list.include?('up')
-    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-  end
+  directions_list.each{ |direction|
+    case
+    when direction == 'up'
+      vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
 
-  if directions_list.include?('up_right')
-    upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-  end
+    when direction == 'up-right'
+      upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
 
-  if directions_list.include?('right')
-    horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-  end
+    when direction == 'right'
+      horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
 
-  if directions_list.include?('down_right')
-    downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-  end
+    when direction == 'down-right'
+      downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
 
-  if directions_list.include?('down')
-    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-  end
+    when direction == 'down'
+      vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
 
-  if directions_list.include?('down-left')
-    downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-  end
+    when direction == 'down-left'
+      downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
 
-  if directions_list.include?('left')
-    horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-  end
+    when direction == 'left'
+      horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
 
-  if directions_list.include?('up-left')
-    upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-  end
+    when direction == 'up-left'
+      upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+    end
+  }
 
   possible_moves
 end
