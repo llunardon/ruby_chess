@@ -1,7 +1,8 @@
 require_relative 'moves_helper.rb'
 
 # returns the possible moves of a singular piece on the given board
-# doesnt check if the move is legal, it'll be removed in main.rb
+# doesn't check if the move is legal, it will be removed in main.rb
+
 def get_cell_moves(board, coords)
   piece = board.cell_at(coords[0], coords[1]).piece
   possible_moves = []
@@ -21,25 +22,11 @@ def get_cell_moves(board, coords)
     
   # rook
   when piece.name == 'rook'
-    # add possible moves in the upward direction
-    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-    # add possible moves in the downward direction
-    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
-    # add possible moves in the right direction
-    horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    # add possible moves in the left direction
-    horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    long_moves(['up', 'down', 'left', 'right'], board, row, col).each { |coordinate| possible_moves << coordinate }
 
   # bishop
   when piece.name == 'bishop'
-    # add possible moves in the up-right direction
-    upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-    # add possible moves in the up-left direction
-    upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
-    # add possible moves in the down-right direction
-    downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    # add possible moves in the down-left direction
-    downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    long_moves(['up-right', 'down-right', 'down-left', 'up-left'], board, row, col).each { |coordinate| possible_moves << coordinate }
 
   # knight
   when piece.name == 'knight'
@@ -47,28 +34,13 @@ def get_cell_moves(board, coords)
 
   # queen
   when piece.name == 'queen'
-    # add possible moves in the upward direction
-    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-    # add possible moves in the downward direction
-    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
-    # add possible moves in the right direction
-    horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    # add possible moves in the left direction
-    horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    # add possible moves in the up-right direction
-    upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-    # add possible moves in the up-left direction
-    upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
-    # add possible moves in the down-right direction
-    downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    # add possible moves in the down-left direction
-    downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-
+    long_moves(['up-right', 'down-right', 'down-left', 'up-left', 'up', 'down', 'left', 'right'], board, row, col).each { |coordinate| possible_moves << coordinate }
+  
   # king
   when piece.name == 'king'
     king_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-
   end
+
   possible_moves
 end
 
@@ -160,4 +132,44 @@ def causes_check?(board, player, start_coords, end_coords)
 
   # is it in check?
   is_in_check?(temp_board, player)
+end
+
+# returns an array of possible moves given a list of directions in input
+# only for pieces that can move across the board in one move
+def long_moves(directions_list, board, row, col)
+  possible_moves = []
+  
+  if directions_list.include?('up')
+    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+  end
+
+  if directions_list.include?('up_right')
+    upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+  end
+
+  if directions_list.include?('right')
+    horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+  end
+
+  if directions_list.include?('down_right')
+    downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+  end
+
+  if directions_list.include?('down')
+    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+  end
+
+  if directions_list.include?('down-left')
+    downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+  end
+
+  if directions_list.include?('left')
+    horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+  end
+
+  if directions_list.include?('up-left')
+    upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
+  end
+
+  possible_moves
 end
