@@ -1,7 +1,7 @@
 require_relative 'moves_helper.rb'
 
 # returns the possible moves of a singular piece on the given board
-# doesn't check if the move is legal, it will be removed in main.rb
+# doesnt check if the move is legal, it'll be removed in main.rb
 def get_cell_moves(board, coords)
   piece = board.cell_at(coords[0], coords[1]).piece
   possible_moves = []
@@ -22,9 +22,9 @@ def get_cell_moves(board, coords)
   # rook
   when piece.name == 'rook'
     # add possible moves in the upward direction
-    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
     # add possible moves in the downward direction
-    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate } 
+    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
     # add possible moves in the right direction
     horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
     # add possible moves in the left direction
@@ -33,9 +33,9 @@ def get_cell_moves(board, coords)
   # bishop
   when piece.name == 'bishop'
     # add possible moves in the up-right direction
-    upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
     # add possible moves in the up-left direction
-    upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate } 
+    upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
     # add possible moves in the down-right direction
     downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
     # add possible moves in the down-left direction
@@ -48,9 +48,9 @@ def get_cell_moves(board, coords)
   # queen
   when piece.name == 'queen'
     # add possible moves in the upward direction
-    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
     # add possible moves in the downward direction
-    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate } 
+    vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate} 
     # add possible moves in the right direction
     horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
     # add possible moves in the left direction
