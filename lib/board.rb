@@ -72,10 +72,18 @@ class Board
       print '|'
 
       # iterate over every column
-      row.each do |cell|
+      #row.each do |cell|
+      row.each_with_index do |cell, j|
         # switch statement, checks the piece's name and color
         # and prints the corrispondent unicode character
         case cell.piece.name
+        when 'none'
+          if (index+j).modulo(2) == 1
+            print "\u25a1".encode('utf-8') + ' '
+          else
+            print "\u25a0".encode('utf-8') + ' '
+          end
+
         when 'rook'
           if cell.piece.color == 'white'
             print white_rook.encode('utf-8') + ' '

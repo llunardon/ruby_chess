@@ -2,46 +2,28 @@ require_relative 'moves_helper.rb'
 
 # returns the possible moves of a singular piece on the given board
 # doesn't check if the move is legal, it will be removed in main.rb
-
 def get_cell_moves(board, coords)
   piece = board.cell_at(coords[0], coords[1]).piece
-  possible_moves = []
 
   row = 8 - coords[0]
   col = coords[1][0].ord - 97
   
-  # switch statement
   case 
-  # white pawn
   when piece.name == 'pawn' && piece.color == 'white'
-    white_pawn_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-
-  # black pawn
+    return white_pawn_moves(board, row, col)
   when piece.name == 'pawn' && piece.color == 'black'
-    black_pawn_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-    
-  # rook
-  when piece.name == 'rook'
-    long_moves(['up', 'down', 'left', 'right'], board, row, col).each { |coordinate| possible_moves << coordinate }
-
-  # bishop
-  when piece.name == 'bishop'
-    long_moves(['up-right', 'down-right', 'down-left', 'up-left'], board, row, col).each { |coordinate| possible_moves << coordinate }
-
-  # knight
+    return black_pawn_moves(board, row, col)
   when piece.name == 'knight'
-    knight_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
-
-  # queen
+    return knight_moves(board, row, col)
+  when piece.name == 'rook'
+    return long_moves(['up', 'down', 'left', 'right'], board, row, col)
+  when piece.name == 'bishop'
+    return long_moves(['up-right', 'down-right', 'down-left', 'up-left'], board, row, col)
   when piece.name == 'queen'
-    long_moves(['up-right', 'down-right', 'down-left', 'up-left', 'up', 'down', 'left', 'right'], board, row, col).each { |coordinate| possible_moves << coordinate }
-  
-  # king
+    return long_moves(['up-right', 'down-right', 'down-left', 'up-left', 'up', 'down', 'left', 'right'], board, row, col)
   when piece.name == 'king'
-    king_moves(board, row, col).each { |coordinate| possible_moves << coordinate }
+    return king_moves(board, row, col)
   end
-
-  possible_moves
 end
 
 # assign possible moves to every piece in the given board
@@ -143,25 +125,18 @@ def long_moves(directions_list, board, row, col)
     case
     when direction == 'up'
       vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-
     when direction == 'up-right'
       upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-
     when direction == 'right'
       horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-
     when direction == 'down-right'
       downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-
     when direction == 'down'
       vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-
     when direction == 'down-left'
       downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-
     when direction == 'left'
       horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-
     when direction == 'up-left'
       upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
     end
