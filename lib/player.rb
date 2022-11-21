@@ -1,3 +1,5 @@
+# lib/player.rb
+
 class Player
   attr_accessor :name, :color
 

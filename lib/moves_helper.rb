@@ -1,3 +1,5 @@
+# lib/moves_helper.rb
+
 def white_pawn_moves(board, row, col)
   ret_array = []
 

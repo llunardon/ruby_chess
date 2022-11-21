@@ -46,6 +46,7 @@ class Board
   def print_board()
     # unicode values
     # white characters
+    white_square = "\u25a1"
     black_rook = "\u2656"
     black_knight = "\u2658"
     black_bishop = "\u2657"
@@ -54,6 +55,7 @@ class Board
     black_pawn = "\u2659"
 
     # black characters
+    black_square = "\u25a0"
     white_rook = "\u265c"
     white_knight = "\u265e"
     white_bishop = "\u265d"
@@ -79,9 +81,9 @@ class Board
         case cell.piece.name
         when 'none'
           if (index+j).modulo(2) == 1
-            print "\u25a1".encode('utf-8') + ' '
+            print white_square.encode('utf-8') + ' '
           else
-            print "\u25a0".encode('utf-8') + ' '
+            print black_square.encode('utf-8') + ' '
           end
 
         when 'rook'

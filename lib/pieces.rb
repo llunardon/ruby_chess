@@ -1,3 +1,5 @@
+# lib/pieces.rb
+
 class Piece
   attr_accessor :color, :name, :possible_moves
 

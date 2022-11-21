@@ -1,3 +1,5 @@
+# lib/cell.rb
+
 require_relative 'pieces.rb'
 
 class Cell

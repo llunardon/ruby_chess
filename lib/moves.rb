@@ -1,3 +1,5 @@
+# lib/moves.rb
+
 require_relative 'moves_helper.rb'
 
 # returns the possible moves of a singular piece on the given board
@@ -102,7 +104,7 @@ def delete_moves_that_cause_check(board, player)
   end
 end
 
-# returns true if a move is illegal
+# returns true if a move causes the king to be in check
 def causes_check?(board, player, start_coords, end_coords)
   # creates a temporary board to test the given move
   temp_board = Marshal.load(Marshal.dump(board))
