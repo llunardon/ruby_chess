@@ -15,16 +15,16 @@ def get_cell_moves(board, coords)
     return white_pawn_moves(board, row, col)
   when piece.name == 'pawn' && piece.color == 'black'
     return black_pawn_moves(board, row, col)
-  when piece.name == 'knight'
-    return knight_moves(board, row, col)
   when piece.name == 'rook'
     return long_moves(board, row, col)
   when piece.name == 'bishop'
     return long_moves(board, row, col)
   when piece.name == 'queen'
     return long_moves(board, row, col)
+  when piece.name == 'knight'
+    return kk_moves(board, row, col)
   when piece.name == 'king'
-    return king_moves(board, row, col)
+    return kk_moves(board, row, col)
   end
 end
 

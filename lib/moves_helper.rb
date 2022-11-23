@@ -187,110 +187,29 @@ def long_moves(board, row, col)
   return moves
 end
 
-def knight_moves(board, row, col)
+# used for knight and king, with different destination lists
+def kk_moves(board, row, col)
   # get the piece at the given coordinates
   piece = board.at(row, col)
 
+  if piece.name == 'knight'
+    dest_list = [[-2,+1], [-1,+2], [-2,-1], [-1,-2], [+1,+2], [+2,+1], [2,-1], [1,-2]]
+  else
+    dest_list = [[-1,0], [-1,+1], [0,+1], [+1,+1], [+1,0], [+1,-1], [0,-1], [-1,-1]]
+  end
+
   moves = []
 
-  # two rows up, one column right
-  if is_inside?(row-2, col+1) && board.at(row-2, col+1).color != piece.color
-    moves << end_coords(row-2, col+1)
-  end
+  dest_list.each do |dest|
+    i = dest[0]
+    j = dest[1]
 
-  # one row up, two columns right
-  if is_inside?(row-1, col+2) && board.at(row-1, col+2).color != piece.color
-    moves << end_coords(row-1, col+2)
-  end
-
-  # two rows up, one column left
-  if is_inside?(row-2, col-1) && board.at(row-2, col-1).color != piece.color
-    moves << end_coords(row-2, col-1)
-  end
-
-  # one row up, two columns left
-  if is_inside?(row-1, col-2) && board.at(row-1, col-2).color != piece.color
-    moves << end_coords(row-1, col-2)
-  end
-
-  # two rows down, one column right
-  #if row < 6 && col < 7 && board.at(row+2, col+1).color != piece.color
-  if is_inside?(row+2, col+1) && board.at(row+2, col+1).color != piece.color
-    moves << end_coords(row+2, col+1)
-  end
-
-  # one row down, two columns right
-  if is_inside?(row+1, col+2) && board.at(row+1, col+2).color != piece.color
-    moves << end_coords(row+1, col+2)
-  end
-
-  # two rows down, one column left
-  if is_inside?(row+2, col-1) && board.at(row+2, col-1).color != piece.color
-    moves << end_coords(row+2, col-1)
-  end
-
-  # one row down, two columns left
-  if is_inside?(row+1, col-2) && board.at(row+1, col-2).color != piece.color
-    moves << end_coords(row+1, col-2)
+    if is_inside?(row+i, col+j) && board.at(row+i, col+j).color != piece.color
+      moves << end_coords(row+i, col+j)
+    end
   end
 
   moves
-end
-
-def king_moves(board, row, col)
-  # get the piece at the given coordinates
-  piece = board.cells[row][col].piece
-
-  # find the opponent's color
-  if piece.is_white?
-    opp_color = 'black'
-  else
-    opp_color = 'white'
-  end
-
-  ret_array = []
-
-  # up
-  if row > 0 && board.cells[row - 1][col].piece.color != piece.color
-    ret_array << [8 - row + 1, (col + 97 ).chr]
-  end
-
-  # down
-  if row < 7 && board.cells[row + 1][col].piece.color != piece.color
-    ret_array << [8 - row - 1, (col + 97).chr]
-  end
-
-  # right
-  if col < 7 && board.cells[row][col + 1].piece.color != piece.color
-    ret_array << [8 - row, (col + 97 + 1).chr]
-  end
-
-  # left
-  if col > 0 && board.cells[row][col - 1].piece.color != piece.color
-    ret_array << [8 - row, (col + 97 - 1).chr]
-  end
-
-  # up-right 
-  if row > 0 && col < 7 && board.cells[row - 1][col + 1].piece.color != piece.color
-    ret_array << [8 - row + 1, (col + 97 + 1).chr]
-  end
-
-  # up-left
-  if row > 0 && col > 0 && board.cells[row - 1][col - 1].piece.color != piece.color
-    ret_array << [8 - row + 1, (col + 97 - 1).chr]
-  end
-
-  # down-right
-  if row < 7 && col < 7 && board.cells[row + 1][col + 1].piece.color != piece.color
-    ret_array << [8 - row - 1, (col + 97 + 1).chr]
-  end
-
-  # down-left
-  if row < 7 && col > 0 && board.cells[row + 1][col - 1].piece.color != piece.color
-    ret_array << [8 - row - 1, (col + 97 - 1).chr]
-  end
-
-  ret_array
 end
 
 # translate indices of matrix into player's coordinates
@@ -298,7 +217,7 @@ def end_coords(row, col)
   [8 - row, (col + 97).chr] 
 end
 
-# returns 1 if position is inside the board
+# boolean that checks if position is inside the board
 def is_inside?(row, col)
   return (row <= 7 && row >= 0 && col <= 7 && col >= 0)
 end
