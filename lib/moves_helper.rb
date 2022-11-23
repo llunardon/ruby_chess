@@ -47,12 +47,8 @@ end
 
 # used for rook, bishop and queen
 def long_moves(board, row, col)
-  # get the piece at the given coordinates
   start_piece = board.at(row, col)
   name = start_piece.name
-
-  straight = 0
-  diag = 0
 
   if start_piece.color == 'white'
     opp_color = 'black'
@@ -80,106 +76,110 @@ def long_moves(board, row, col)
   # without adding the move
   for i in 1..6 do
     # upwards
-    if row-i >= 0 && up_stop == 0 && (name == 'rook' || name == 'queen')
-      upper_piece = board.at(row-i, col) 
-      if upper_piece.is_none?
-        moves << end_coords(row-i, col)
-      elsif upper_piece.color == opp_color
-        moves << end_coords(row-i, col)
-        up_stop = 1
-      elsif upper_piece.color == start_piece.color
-        up_stop = 1
+    if (name == 'rook' || name == 'queen')
+      if row-i >= 0 && up_stop == 0
+        upper_piece = board.at(row-i, col) 
+        if upper_piece.is_none?
+          moves << end_coords(row-i, col)
+        elsif upper_piece.color == opp_color
+          moves << end_coords(row-i, col)
+          up_stop = 1
+        else
+          up_stop = 1
+        end
       end
-    end
 
-    # right
-    if col+i <= 7 && right_stop == 0 && (name == 'rook' || name == 'queen')
-      right_piece = board.at(row, col+i) 
-      if right_piece.is_none?
-        moves << end_coords(row, col+i)
-      elsif right_piece.color == opp_color
-        moves << end_coords(row, col+i)
-        right_stop = 1
-      elsif right_piece.color == start_piece.color
-        right_stop = 1
+      # right
+      if col+i <= 7 && right_stop == 0
+        right_piece = board.at(row, col+i) 
+        if right_piece.is_none?
+          moves << end_coords(row, col+i)
+        elsif right_piece.color == opp_color
+          moves << end_coords(row, col+i)
+          right_stop = 1
+        else
+          right_stop = 1
+        end
       end
-    end
 
-    # downwards
-    if row+i <= 7 && down_stop == 0 && (name == 'rook' || name == 'queen')
-      down_piece = board.at(row+i, col) 
-      if down_piece.is_none?
-        moves << end_coords(row+i, col)
-      elsif down_piece.color == opp_color
-        moves << end_coords(row+i, col)
-        down_stop = 1
-      elsif down_piece.color == start_piece.color
-        down_stop = 1
+      # downwards
+      if row+i <= 7 && down_stop == 0 && (name == 'rook' || name == 'queen')
+        down_piece = board.at(row+i, col) 
+        if down_piece.is_none?
+          moves << end_coords(row+i, col)
+        elsif down_piece.color == opp_color
+          moves << end_coords(row+i, col)
+          down_stop = 1
+        else
+          down_stop = 1
+        end
       end
-    end
-      
-    # left
-    if col-i >= 0 && left_stop == 0 && (name == 'rook' || name == 'queen')
-      left_piece = board.at(row, col-i) 
-      if left_piece.is_none?
-        moves << end_coords(row, col-i)
-      elsif left_piece.color == opp_color
-        moves << end_coords(row, col-i)
-        left_stop = 1
-      elsif left_piece.color == start_piece.color
-        left_stop = 1
+        
+      # left
+      if col-i >= 0 && left_stop == 0
+        left_piece = board.at(row, col-i) 
+        if left_piece.is_none?
+          moves << end_coords(row, col-i)
+        elsif left_piece.color == opp_color
+          moves << end_coords(row, col-i)
+          left_stop = 1
+        else
+          left_stop = 1
+        end
       end
     end
       
     # up-right
-    if row-i >= 0 && col+i <= 7 && up_right_stop == 0 && (name == 'bishop' || name == 'queen')
-      up_right_piece = board.at(row-i, col+i) 
-      if up_right_piece.is_none?
-        moves << end_coords(row-i, col+i)
-      elsif up_right_piece.color == opp_color
-        moves << end_coords(row-i, col+i)
-        up_right_stop = 1
-      elsif up_right_piece.color == start_piece.color
-        up_right_stop = 1
+    if (name == 'bishop' || name == 'queen')
+      if row-i >= 0 && col+i <= 7 && up_right_stop == 0 && 
+        up_right_piece = board.at(row-i, col+i) 
+        if up_right_piece.is_none?
+          moves << end_coords(row-i, col+i)
+        elsif up_right_piece.color == opp_color
+          moves << end_coords(row-i, col+i)
+          up_right_stop = 1
+        else
+          up_right_stop = 1
+        end
       end
-    end
 
-    # down-right
-    if row+i <= 7 && col+i <= 7 && down_right_stop == 0 && (name == 'bishop' || name == 'queen')
-      down_right_piece = board.at(row+i, col+i) 
-      if down_right_piece.is_none?
-        moves << end_coords(row+i, col+i)
-      elsif down_right_piece.color == opp_color
-        moves << end_coords(row+i, col+i)
-        down_right_stop = 1
-      elsif down_right_piece.color == start_piece.color
-        down_right_stop = 1
+      # down-right
+      if row+i <= 7 && col+i <= 7 && down_right_stop == 0 && (name == 'bishop' || name == 'queen')
+        down_right_piece = board.at(row+i, col+i) 
+        if down_right_piece.is_none?
+          moves << end_coords(row+i, col+i)
+        elsif down_right_piece.color == opp_color
+          moves << end_coords(row+i, col+i)
+          down_right_stop = 1
+        else
+          down_right_stop = 1
+        end
       end
-    end
 
-    # down-left
-    if row+i <= 7 && col-i >= 0 && down_left_stop == 0 && (name == 'bishop' || name == 'queen')
-      down_left_piece = board.at(row+i, col-i) 
-      if down_left_piece.is_none?
-        moves << end_coords(row+i, col-i)
-      elsif down_left_piece.color == opp_color
-        moves << end_coords(row+i, col-i)
-        down_left_stop = 1
-      elsif down_left_piece.color == start_piece.color
-        down_left_stop = 1
+      # down-left
+      if row+i <= 7 && col-i >= 0 && down_left_stop == 0 && (name == 'bishop' || name == 'queen')
+        down_left_piece = board.at(row+i, col-i) 
+        if down_left_piece.is_none?
+          moves << end_coords(row+i, col-i)
+        elsif down_left_piece.color == opp_color
+          moves << end_coords(row+i, col-i)
+          down_left_stop = 1
+        else
+          down_left_stop = 1
+        end
       end
-    end
 
-    # up-left
-    if row-i >= 0 && col-i >= 0 && up_left_stop == 0 && (name == 'bishop' || name == 'queen')
-      up_left_piece = board.at(row-i, col-i) 
-      if up_left_piece.is_none?
-        moves << end_coords(row-i, col-i)
-      elsif up_left_piece.color == opp_color
-        moves << end_coords(row-i, col-i)
-        up_left_stop = 1
-      elsif up_left_piece.color == start_piece.color
-        up_left_stop = 1
+      # up-left
+      if row-i >= 0 && col-i >= 0 && up_left_stop == 0 && (name == 'bishop' || name == 'queen')
+        up_left_piece = board.at(row-i, col-i) 
+        if up_left_piece.is_none?
+          moves << end_coords(row-i, col-i)
+        elsif up_left_piece.color == opp_color
+          moves << end_coords(row-i, col-i)
+          up_left_stop = 1
+        else
+          up_left_stop = 1
+        end
       end
     end
   end
@@ -191,56 +191,50 @@ def knight_moves(board, row, col)
   # get the piece at the given coordinates
   piece = board.at(row, col)
 
-  # find the opponent's color
-  if piece.is_white?
-    opp_color = 'black'
-  else
-    opp_color = 'white'
-  end
-
-  ret_array = []
+  moves = []
 
   # two rows up, one column right
-  if row > 1 && col < 7 && board.cells[row - 2][col + 1].piece.color != piece.color
-    ret_array << [8 - row + 2, (col + 97 + 1).chr]
+  if is_inside?(row-2, col+1) && board.at(row-2, col+1).color != piece.color
+    moves << end_coords(row-2, col+1)
   end
 
   # one row up, two columns right
-  if row > 0 && col < 6 && board.cells[row - 1][col + 2].piece.color != piece.color
-    ret_array << [8 - row + 1, (col + 97 + 2).chr]
+  if is_inside?(row-1, col+2) && board.at(row-1, col+2).color != piece.color
+    moves << end_coords(row-1, col+2)
   end
 
   # two rows up, one column left
-  if row > 1 && col > 0 && board.cells[row - 2][col - 1].piece.color != piece.color
-    ret_array << [8 - row + 2, (col + 97 - 1).chr]
+  if is_inside?(row-2, col-1) && board.at(row-2, col-1).color != piece.color
+    moves << end_coords(row-2, col-1)
   end
 
   # one row up, two columns left
-  if row > 0 && col > 1 && board.cells[row - 1][col - 2].piece.color != piece.color
-    ret_array << [8 - row + 1, (col + 97 - 2).chr]
+  if is_inside?(row-1, col-2) && board.at(row-1, col-2).color != piece.color
+    moves << end_coords(row-1, col-2)
   end
 
   # two rows down, one column right
-  if row < 6 && col < 7 && board.cells[row + 2][col + 1].piece.color != piece.color
-    ret_array << [8 - row - 2, (col + 97 + 1).chr]
+  #if row < 6 && col < 7 && board.at(row+2, col+1).color != piece.color
+  if is_inside?(row+2, col+1) && board.at(row+2, col+1).color != piece.color
+    moves << end_coords(row+2, col+1)
   end
 
   # one row down, two columns right
-  if row < 7 && col < 6 && board.cells[row + 1][col + 2].piece.color != piece.color
-    ret_array << [8 - row - 1, (col + 97 + 2).chr]
+  if is_inside?(row+1, col+2) && board.at(row+1, col+2).color != piece.color
+    moves << end_coords(row+1, col+2)
   end
 
   # two rows down, one column left
-  if row < 6 && col > 0 && board.cells[row + 2][col - 1].piece.color != piece.color
-    ret_array << [8 - row - 2, (col + 97 - 1).chr]
+  if is_inside?(row+2, col-1) && board.at(row+2, col-1).color != piece.color
+    moves << end_coords(row+2, col-1)
   end
 
   # one row down, two columns left
-  if row < 7 && col > 1 && board.cells[row + 1][col - 2].piece.color != piece.color
-    ret_array << [8 - row - 1, (col + 97 - 2).chr]
+  if is_inside?(row+1, col-2) && board.at(row+1, col-2).color != piece.color
+    moves << end_coords(row+1, col-2)
   end
 
-  ret_array
+  moves
 end
 
 def king_moves(board, row, col)
@@ -302,4 +296,9 @@ end
 # translate indices of matrix into player's coordinates
 def end_coords(row, col)
   [8 - row, (col + 97).chr] 
+end
+
+# returns 1 if position is inside the board
+def is_inside?(row, col)
+  return (row <= 7 && row >= 0 && col <= 7 && col >= 0)
 end

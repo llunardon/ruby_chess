@@ -18,13 +18,10 @@ def get_cell_moves(board, coords)
   when piece.name == 'knight'
     return knight_moves(board, row, col)
   when piece.name == 'rook'
-    #return long_moves(['up', 'down', 'left', 'right'], board, row, col)
     return long_moves(board, row, col)
   when piece.name == 'bishop'
-    #return long_moves(['up-right', 'down-right', 'down-left', 'up-left'], board, row, col)
     return long_moves(board, row, col)
   when piece.name == 'queen'
-    #return long_moves(['up-right', 'down-right', 'down-left', 'up-left', 'up', 'down', 'left', 'right'], board, row, col)
     return long_moves(board, row, col)
   when piece.name == 'king'
     return king_moves(board, row, col)
@@ -120,32 +117,3 @@ def causes_check?(board, player, start_coords, end_coords)
   # is it in check?
   is_in_check?(temp_board, player)
 end
-
-# returns an array of possible moves given a list of directions in input
-# only for pieces that can move across the board in one move
-#def long_moves(directions_list, board, row, col)
-#  possible_moves = []
-#  
-#  directions_list.each{ |direction|
-#    case
-#    when direction == 'up'
-#      vertical_upward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-#    when direction == 'up-right'
-#      upward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-#    when direction == 'right'
-#      horizontal_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-#    when direction == 'down-right'
-#      downward_right_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-#    when direction == 'down'
-#      vertical_downward_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-#    when direction == 'down-left'
-#      downward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-#    when direction == 'left'
-#      horizontal_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-#    when direction == 'up-left'
-#      upward_left_moves(board, row, col).each { |coordinate| possible_moves << coordinate}
-#    end
-#  }
-#
-#  possible_moves
-#end
