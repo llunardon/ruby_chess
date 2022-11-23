@@ -45,21 +45,14 @@ def black_pawn_moves(board, row, col)
   moves
 end
 
-# used for rook, bishop and queen
 def long_moves(board, row, col)
   # get the piece at the given coordinates
   start_piece = board.at(row, col)
-  name = start_piece.name
-
-  straight = 0
-  diag = 0
-
   if start_piece.color == 'white'
     opp_color = 'black'
   else
     opp_color = 'white'
   end
-                  
   moves = []
 
   # loop until it reaches the border
@@ -73,14 +66,9 @@ def long_moves(board, row, col)
   up_left_stop = 0
   down_left_stop = 0
 
-  # checks in all directions, if the cell is empty then add
-  # the move to the array, if the cell is occupied by the enemy
-  # then also set the stop variable to 1. If the cell
-  # is occupied by an ally piece, just set the stop variable to 1
-  # without adding the move
   for i in 1..6 do
     # upwards
-    if row-i >= 0 && up_stop == 0 && (name == 'rook' || name == 'queen')
+    if row-i >= 0 && up_stop == 0
       upper_piece = board.at(row-i, col) 
       if upper_piece.is_none?
         moves << end_coords(row-i, col)
@@ -93,7 +81,7 @@ def long_moves(board, row, col)
     end
 
     # right
-    if col+i <= 7 && right_stop == 0 && (name == 'rook' || name == 'queen')
+    if col+i <= 7 && right_stop == 0
       right_piece = board.at(row, col+i) 
       if right_piece.is_none?
         moves << end_coords(row, col+i)
@@ -106,7 +94,7 @@ def long_moves(board, row, col)
     end
 
     # downwards
-    if row+i <= 7 && down_stop == 0 && (name == 'rook' || name == 'queen')
+    if row+i <= 7 && down_stop == 0
       down_piece = board.at(row+i, col) 
       if down_piece.is_none?
         moves << end_coords(row+i, col)
@@ -119,7 +107,7 @@ def long_moves(board, row, col)
     end
       
     # left
-    if col-i >= 0 && left_stop == 0 && (name == 'rook' || name == 'queen')
+    if col-i >= 0 && left_stop == 0
       left_piece = board.at(row, col-i) 
       if left_piece.is_none?
         moves << end_coords(row, col-i)
@@ -132,7 +120,7 @@ def long_moves(board, row, col)
     end
       
     # up-right
-    if row-i >= 0 && col+i <= 7 && up_right_stop == 0 && (name == 'bishop' || name == 'queen')
+    if row-i >= 0 && col+i <= 7 && up_right_stop == 0
       up_right_piece = board.at(row-i, col+i) 
       if up_right_piece.is_none?
         moves << end_coords(row-i, col+i)
@@ -145,7 +133,7 @@ def long_moves(board, row, col)
     end
 
     # down-right
-    if row+i <= 7 && col+i <= 7 && down_right_stop == 0 && (name == 'bishop' || name == 'queen')
+    if row+i <= 7 && col+i <= 7 && down_right_stop == 0
       down_right_piece = board.at(row+i, col+i) 
       if down_right_piece.is_none?
         moves << end_coords(row+i, col+i)
@@ -158,7 +146,7 @@ def long_moves(board, row, col)
     end
 
     # down-left
-    if row+i <= 7 && col-i >= 0 && down_left_stop == 0 && (name == 'bishop' || name == 'queen')
+    if row+i <= 7 && col-i >= 0 && down_left_stop == 0
       down_left_piece = board.at(row+i, col-i) 
       if down_left_piece.is_none?
         moves << end_coords(row+i, col-i)
@@ -171,7 +159,7 @@ def long_moves(board, row, col)
     end
 
     # up-left
-    if row-i >= 0 && col-i >= 0 && up_left_stop == 0 && (name == 'bishop' || name == 'queen')
+    if row-i >= 0 && col-i >= 0 && up_left_stop == 0
       up_left_piece = board.at(row-i, col-i) 
       if up_left_piece.is_none?
         moves << end_coords(row-i, col-i)
@@ -182,14 +170,300 @@ def long_moves(board, row, col)
         up_left_stop = 1
       end
     end
+
+    # break out of loop if all stops are active
+    #if up_piece == 1 && right_piece == 1 && down_piece == 1 && left_piece == 1 && 
+    #end
   end
 
   return moves
 end
 
+#def vertical_upward_moves(board, row, col)
+#  # get the piece at the given coordinates
+#  piece = board.cells[row][col].piece
+#
+#  # find the opponent's color
+#  if piece.is_white?
+#    opp_color = 'black'
+#  else
+#    opp_color = 'white'
+#  end
+#
+#  ret_array = []
+#
+#  return ret_array if row == 0
+#
+#  # loop until it reaches the border
+#  loop do
+#    upper_cell = board.cells[row - 1][col]
+#
+#    if upper_cell.piece.is_none?
+#      ret_array << [8 - row + 1, (col + 97).chr]
+#    elsif upper_cell.piece.color == opp_color
+#      ret_array << [8 - row + 1, (col + 97).chr]
+#      return ret_array
+#    elsif upper_cell.piece.color == piece.color
+#      return ret_array
+#    end
+#
+#    row -= 1
+#    # exit loop if it reaches the first row
+#    break if row == 0
+#  end
+#
+#  ret_array
+#end
+#
+#def vertical_downward_moves(board, row, col)
+#  piece = board.cells[row][col].piece
+#
+#  # find the opponent's color
+#  if piece.is_white?
+#    opp_color = 'black'
+#  else
+#    opp_color = 'white'
+#  end
+#
+#  ret_array = []
+#
+#  return ret_array if row == 7
+#
+#  loop do 
+#    lower_cell = board.cells[row + 1][col]
+#
+#    if lower_cell.piece.is_none?
+#      ret_array << [8 - row - 1, (col + 97).chr]
+#    elsif lower_cell.piece.color == opp_color
+#      ret_array << [8 - row - 1, (col + 97).chr]
+#      return ret_array
+#    elsif lower_cell.piece.color == piece.color
+#      return ret_array
+#    end
+#
+#    row += 1
+#    # exit loop if it reaches the first row
+#    break if row == 7 
+#  end
+#
+#  ret_array
+#end
+#
+#def horizontal_right_moves(board, row, col)
+#  piece = board.cells[row][col].piece
+#
+#  # find the opponent's color
+#  if piece.is_white?
+#    opp_color = 'black'
+#  else
+#    opp_color = 'white'
+#  end
+#
+#  ret_array = []
+#
+#  return ret_array if col == 7
+#
+#  loop do 
+#    right_cell = board.cells[row][col + 1]
+#
+#    if right_cell.piece.is_none?
+#      ret_array << [8 - row, (col + 97 + 1).chr]
+#    elsif right_cell.piece.color == opp_color
+#      ret_array << [8 - row, (col + 97 + 1).chr]
+#      return ret_array
+#    elsif right_cell.piece.color == piece.color
+#      return ret_array
+#    end
+#
+#    col += 1
+#    # exit loop if it reaches the first row
+#    break if col == 7 
+#  end
+#
+#  ret_array
+#end
+#
+#def horizontal_left_moves(board, row, col)
+#  piece = board.cells[row][col].piece
+#
+#  # find the opponent's color
+#  if piece.is_white?
+#    opp_color = 'black'
+#  else
+#    opp_color = 'white'
+#  end
+#
+#  ret_array = []
+#
+#  return ret_array if col == 0
+#
+#  loop do 
+#    left_cell = board.cells[row][col - 1]
+#
+#    if left_cell.piece.is_none?
+#      ret_array << [8 - row, (col + 97 - 1).chr]
+#    elsif left_cell.piece.color == opp_color
+#      ret_array << [8 - row, (col + 97 - 1).chr]
+#      return ret_array
+#    elsif left_cell.piece.color == piece.color
+#      return ret_array
+#    end
+#
+#    col -= 1
+#    # exit loop if it reaches the first row
+#    break if col == 0 
+#  end
+#
+#  ret_array
+#end
+#
+#def upward_right_moves(board, row, col)
+#  # get the piece at the given coordinates
+#  piece = board.cells[row][col].piece
+#
+#  # find the opponent's color
+#  if piece.is_white?
+#    opp_color = 'black'
+#  else
+#    opp_color = 'white'
+#  end
+#
+#  ret_array = []
+#
+#  # loop until it reaches the border
+#  loop do
+#    break if row == 0 || col == 7
+#
+#    upper_right_cell = board.cells[row - 1][col + 1]
+#
+#    if upper_right_cell.piece.is_none?
+#      ret_array << [8 - row + 1, (col + 97 + 1).chr]
+#    elsif upper_right_cell.piece.color == opp_color
+#      ret_array << [8 - row + 1, (col + 97 + 1).chr]
+#      return ret_array
+#    elsif upper_right_cell.piece.color == piece.color
+#      return ret_array
+#    end
+#
+#    row -= 1
+#    col += 1
+#    # exit loop if it reaches the first row or the last column
+#  end
+#
+#  ret_array
+#end
+#
+#def upward_left_moves(board, row, col)
+#  # get the piece at the given coordinates
+#  piece = board.cells[row][col].piece
+#
+#  # find the opponent's color
+#  if piece.is_white?
+#    opp_color = 'black'
+#  else
+#    opp_color = 'white'
+#  end
+#
+#  ret_array = []
+#
+#  # loop until it reaches the border
+#  loop do
+#    break if row == 0 || col == 0
+#
+#    upper_left_cell = board.cells[row - 1][col - 1]
+#
+#    if upper_left_cell.piece.is_none?
+#      ret_array << [8 - row + 1, (col + 97 - 1).chr]
+#    elsif upper_left_cell.piece.color == opp_color
+#      ret_array << [8 - row + 1, (col + 97 - 1).chr]
+#      return ret_array
+#    elsif upper_left_cell.piece.color == piece.color
+#      return ret_array
+#    end
+#
+#    row -= 1
+#    col -= 1
+#    # exit loop if it reaches the first row or the last column
+#  end
+#
+#  ret_array
+#end
+#
+#def downward_right_moves(board, row, col)
+#  # get the piece at the given coordinates
+#  piece = board.cells[row][col].piece
+#
+#  # find the opponent's color
+#  if piece.is_white?
+#    opp_color = 'black'
+#  else
+#    opp_color = 'white'
+#  end
+#
+#  ret_array = []
+#
+#  # loop until it reaches the border
+#  loop do
+#    break if row == 7 || col == 7
+#
+#    lower_right_cell = board.cells[row + 1][col + 1]
+#
+#    if lower_right_cell.piece.is_none?
+#      ret_array << [8 - row - 1, (col + 97 + 1).chr]
+#    elsif lower_right_cell.piece.color == opp_color
+#      ret_array << [8 - row - 1, (col + 97 + 1).chr]
+#      return ret_array
+#    elsif lower_right_cell.piece.color == piece.color
+#      return ret_array
+#    end
+#
+#    row += 1
+#    col += 1
+#    # exit loop if it reaches the first row or the last column
+#  end
+#
+#  ret_array
+#end
+#
+#def downward_left_moves(board, row, col)
+#  # get the piece at the given coordinates
+#  piece = board.cells[row][col].piece
+#
+#  # find the opponent's color
+#  if piece.is_white?
+#    opp_color = 'black'
+#  else
+#    opp_color = 'white'
+#  end
+#
+#  ret_array = []
+#
+#  # loop until it reaches the border
+#  loop do
+#    break if row == 7 || col == 0
+#
+#    lower_left_cell = board.cells[row + 1][col - 1]
+#
+#    if lower_left_cell.piece.is_none?
+#      ret_array << [8 - row - 1, (col + 97 - 1).chr]
+#    elsif lower_left_cell.piece.color == opp_color
+#      ret_array << [8 - row - 1, (col + 97 - 1).chr]
+#      return ret_array
+#    elsif lower_left_cell.piece.color == piece.color
+#      return ret_array
+#    end
+#
+#    row += 1
+#    col -= 1
+#    # exit loop if it reaches the first row or the last column
+#  end
+#
+#  ret_array
+#end
+
 def knight_moves(board, row, col)
   # get the piece at the given coordinates
-  piece = board.at(row, col)
+  piece = board.cells[row][col].piece
 
   # find the opponent's color
   if piece.is_white?

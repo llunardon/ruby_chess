@@ -141,6 +141,9 @@ class Board
     puts '  a b c d e f g h  '
   end
 
+  # inputs row and col are in player's notation
+  # player's row = 1 --> kept at index 7 in the matrix
+  # col is a letter
   def cell_at(row, col)
     return nil if row.to_i < 1 || row.to_i > 8 
 
@@ -212,5 +215,10 @@ class Board
   # returns the "front-end" coordinates given the @cells indexes
   def get_coords(row, col)
     [8 - row, (col + 97).chr]
+  end
+
+  # returns the piece at indices row, col in the matrix
+  def at(row, col)
+    @cells[row][col].piece
   end
 end

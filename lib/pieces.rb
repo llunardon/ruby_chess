@@ -13,4 +13,16 @@ class Piece
     @name = name
     @color = color
   end
+
+  def is_white?()
+    return @color == 'white'
+  end
+
+  def is_black?()
+    return @color == 'black'
+  end
+
+  def is_none?()
+    return @color == 'none'
+  end
 end
