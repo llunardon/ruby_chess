@@ -1,8 +1,8 @@
 # Command line chess
 
-Usage: just type
+Usage: type
 
-    ruby main.rb
+    ruby lib/main.rb
 
 in the terminal and follow the instructions.
 
