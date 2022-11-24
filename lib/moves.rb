@@ -11,10 +11,8 @@ def get_cell_moves(board, coords)
   col = coords[1][0].ord - 97
   
   case 
-  when piece.name == 'pawn' && piece.color == 'white'
-    return white_pawn_moves(board, row, col)
-  when piece.name == 'pawn' && piece.color == 'black'
-    return black_pawn_moves(board, row, col)
+  when piece.name == 'pawn'
+    return pawn_moves(board, row, col)
   when piece.name == 'rook'
     return long_moves(board, row, col)
   when piece.name == 'bishop'

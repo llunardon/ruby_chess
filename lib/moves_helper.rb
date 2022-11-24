@@ -1,45 +1,31 @@
 # lib/moves_helper.rb
 
-def white_pawn_moves(board, row, col)
+# used for both black and white pawns
+def pawn_moves(board, row, col)
   moves = []
+  i = 1
+  start_row = 1
+  opp_color = 'white'
 
-  if board.at(row-1, col).is_none? && row == 6
-    moves << player_coords(row-1, col)
-    # pawn is in the starting position, it can move two cells up 
-    moves << player_coords(row-2, col) if board.at(row-2, col).is_none?
-  elsif board.at(row-1, col).is_none? && row > 0
-    moves << player_coords(row-1, col)
-  end
-  # pawn has opponent piece to its left, upward
-  if row > 0 && col > 0 && board.at(row-1, col-1).is_black?
-    moves << player_coords(row-1, col-1)
-  end
-  # pawn has opponent piece to its right, upward
-  if row > 0 && col < 7 && board.at(row-1, col+1).is_black?
-    moves << player_coords(row-1, col+1)
+  if board.at(row, col).is_white?
+    i = -1
+    start_row = 6
+    opp_color = 'black'
   end
 
-  moves
-end
-
-def black_pawn_moves(board, row, col)
-  moves = []
-
-  # pawn can move downward
-  if row == 1 && board.at(row+1, col).is_none? 
-    moves << player_coords(row+1, col)
-    # pawn is in the starting position, it can move two cells down 
-    moves << player_coords(row+2, col) if board.at(row+2, col).is_none?
-  elsif row < 7 && board.at(row+1, col).is_none? 
-    moves << player_coords(row+1, col)
+  # can move two cells if it's in starting row
+  if board.at(row+i, col).is_none? && row == start_row
+    moves << player_coords(row+i, col)
+    moves << player_coords(row+(2*i), col) if board.at(row+(2*i), col).is_none?
+  elsif is_inside?(row+i, col) && board.at(row+i, col).is_none? 
+    moves << player_coords(row+i, col)
   end
-  # pawn has opponent piece to its left, downward
-  if row < 7 && col > 0 && board.at(row+1, col-1).is_white?
-    moves << player_coords(row+1, col-1)
-  end
-  # pawn has opponent piece to its right, downward
-  if row < 7 && col < 7  && board.at(row+1, col+1).is_white?
-    moves << player_coords(row+1, col+1)
+
+  # check left and right for opponents
+  [-1, 1].each do |j|
+    if is_inside?(row+i, col+j) && board.at(row+i, col+j).color == opp_color
+      moves << player_coords(row+i, col+j)
+    end
   end
 
   moves
