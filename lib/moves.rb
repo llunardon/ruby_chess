@@ -39,7 +39,7 @@ def assign_possible_moves(board)
       piece.name = 'queen' if piece.color == 'black' && row_index == 7
     end
 
-    piece.possible_moves = get_cell_moves(board, get_coords(row_index, col_index))
+    piece.possible_moves = get_cell_moves(board, player_coords(row_index, col_index))
   end
 end
 
@@ -53,11 +53,6 @@ def get_all_player_moves(board, color)
   end
 
   ret_array
-end
-
-# returns the "front-end" coordinates given the @cells indexes
-def get_coords(row, col)
-  [8 - row, (col + 97).chr]
 end
 
 # returns a boolean that indicates if the player's king is in check
@@ -90,7 +85,7 @@ def delete_moves_that_cause_check(board, player)
 
     # select only the given player's pieces
     if piece.color == player.color
-      start_coords = get_coords(row_index, col_index)
+      start_coords = player_coords(row_index, col_index)
 
       # cycle every piece's possible move
       piece.possible_moves.each do |end_coords|
