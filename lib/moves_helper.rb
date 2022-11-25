@@ -13,7 +13,7 @@ def pawn_moves(board, row, col)
     opp_color = 'black'
   end
 
-  # can move two cells if it's in starting row
+  # can move two cells ahead if pawn is in starting row
   if board.at(row+i, col).is_none? && row == start_row
     moves << player_coords(row+i, col)
     moves << player_coords(row+(2*i), col) if board.at(row+(2*i), col).is_none?
@@ -21,7 +21,7 @@ def pawn_moves(board, row, col)
     moves << player_coords(row+i, col)
   end
 
-  # check left and right for opponents
+  # check left and right columns for opponents
   [-1, 1].each do |j|
     if is_inside?(row+i, col+j) && board.at(row+i, col+j).color == opp_color
       moves << player_coords(row+i, col+j)
@@ -72,20 +72,7 @@ def long_moves(board, row, col)
       j = dest[1]
 
       if is_inside?(row+(n*i), col+(n*j)) && stop_list[dest_i] == 0
-        # straight moves
-        if (name == 'rook' || name == 'queen') && is_straight?(dest_i)
-          if board.at(row+(n*i), col+(n*j)).is_none?
-            moves << player_coords(row+(n*i), col+(n*j))
-          elsif board.at(row+(n*i), col+(n*j)).color != start_piece.color
-            moves << player_coords(row+(n*i), col+(n*j))
-            stop_list[dest_i] = 1
-          else
-            stop_list[dest_i] = 1
-          end
-        end
-
-        # diagonal moves
-        if (name == 'bishop' || name == 'queen') && !is_straight?(dest_i)
+        if ((name == 'rook' || name == 'queen') && is_straight?(dest_i)) || ((name == 'bishop' || name == 'queen') && !is_straight?(dest_i))
           if board.at(row+(n*i), col+(n*j)).is_none?
             moves << player_coords(row+(n*i), col+(n*j))
           elsif board.at(row+(n*i), col+(n*j)).color != start_piece.color
