@@ -6,7 +6,6 @@ require_relative 'moves_helper.rb'
 # doesn't check if the move is legal, it will be removed in main.rb
 def get_cell_moves(board, coords)
   piece = board.cell_at(coords[0], coords[1]).piece
-
   row = 8 - coords[0]
   col = coords[1][0].ord - 97
   

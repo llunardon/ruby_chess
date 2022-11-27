@@ -23,7 +23,7 @@ def pawn_moves(board, row, col)
 
   # check left and right columns for opponents
   [-1, 1].each do |j|
-    if is_inside?(row+i, col+j) && board.at(row+i, col+j).color == opp_color
+    if is_inside?(row+i, col+j) && (board.at(row+i, col+j).color == opp_color)
       moves << player_coords(row+i, col+j)
     end
   end
@@ -33,8 +33,12 @@ end
 
 # used for knight and king, with different lists of moves to try
 def kk_moves(board, row, col)
-  # get the piece at the given coordinates
   piece = board.at(row, col)
+  if piece.color == 'black'
+    starting_row = 0
+  else
+    starting_row = 7
+  end
 
   if piece.name == 'knight'
     dest_list = [[-2,+1], [-1,+2], [-2,-1], [-1,-2], [+1,+2], [+2,+1], [2,-1], [1,-2]]
@@ -70,17 +74,17 @@ def long_moves(board, row, col)
     dest_list.each_with_index do |dest, dest_i|
       i = dest[0]
       j = dest[1]
+      rq = (name == 'rook' || name == 'queen') && is_straight?(dest_i) # rook, queen
+      bq =  (name == 'bishop' || name == 'queen') && !is_straight?(dest_i) # bishop, queen
 
-      if is_inside?(row+(n*i), col+(n*j)) && stop_list[dest_i] == 0
-        if ((name == 'rook' || name == 'queen') && is_straight?(dest_i)) || ((name == 'bishop' || name == 'queen') && !is_straight?(dest_i))
-          if board.at(row+(n*i), col+(n*j)).is_none?
-            moves << player_coords(row+(n*i), col+(n*j))
-          elsif board.at(row+(n*i), col+(n*j)).color != start_piece.color
-            moves << player_coords(row+(n*i), col+(n*j))
-            stop_list[dest_i] = 1
-          else
-            stop_list[dest_i] = 1
-          end
+      if is_inside?(row+(n*i), col+(n*j)) && stop_list[dest_i] == 0 && (rq || bq)
+        if board.at(row+(n*i), col+(n*j)).is_none?
+          moves << player_coords(row+(n*i), col+(n*j))
+        elsif board.at(row+(n*i), col+(n*j)).color != start_piece.color
+          moves << player_coords(row+(n*i), col+(n*j))
+          stop_list[dest_i] = 1
+        else
+          stop_list[dest_i] = 1
         end
       end
     end
