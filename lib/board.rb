@@ -1,6 +1,6 @@
 # lib/board.rb
 
-require_relative 'cell.rb'
+require_relative 'pieces.rb'
 
 class Board
   attr_accessor :cells
@@ -9,7 +9,7 @@ class Board
     @cells = Array.new(8)
 
     for i in 0..7 do
-      @cells[i] = Array.new(8) { Cell.new }
+      @cells[i] = Array.new(8) { Piece.new }
     end
 
     assign_pieces
@@ -17,29 +17,29 @@ class Board
 
   def assign_pieces()
     # assign white pieces
-    cell_at(1, 'a').piece.set('rook', 'white')
-    cell_at(1, 'h').piece.set('rook', 'white')
-    cell_at(1, 'b').piece.set('knight', 'white')
-    cell_at(1, 'g').piece.set('knight', 'white')
-    cell_at(1, 'c').piece.set('bishop', 'white')
-    cell_at(1, 'f').piece.set('bishop', 'white')
-    cell_at(1, 'd').piece.set('queen', 'white')
-    cell_at(1, 'e').piece.set('king', 'white')
+    cell_at(1, 'a').set('rook', 'white')
+    cell_at(1, 'h').set('rook', 'white')
+    cell_at(1, 'b').set('knight', 'white')
+    cell_at(1, 'g').set('knight', 'white')
+    cell_at(1, 'c').set('bishop', 'white')
+    cell_at(1, 'f').set('bishop', 'white')
+    cell_at(1, 'd').set('queen', 'white')
+    cell_at(1, 'e').set('king', 'white')
     @cells[6].each do |cell|
-      cell.piece.set('pawn', 'white')
+      cell.set('pawn', 'white')
     end
 
     # assign black pieces
-    cell_at(8, 'a').piece.set('rook', 'black')
-    cell_at(8, 'h').piece.set('rook', 'black')
-    cell_at(8, 'b').piece.set('knight', 'black')
-    cell_at(8, 'g').piece.set('knight', 'black')
-    cell_at(8, 'c').piece.set('bishop', 'black')
-    cell_at(8, 'f').piece.set('bishop', 'black')
-    cell_at(8, 'd').piece.set('queen', 'black')
-    cell_at(8, 'e').piece.set('king', 'black')
+    cell_at(8, 'a').set('rook', 'black')
+    cell_at(8, 'h').set('rook', 'black')
+    cell_at(8, 'b').set('knight', 'black')
+    cell_at(8, 'g').set('knight', 'black')
+    cell_at(8, 'c').set('bishop', 'black')
+    cell_at(8, 'f').set('bishop', 'black')
+    cell_at(8, 'd').set('queen', 'black')
+    cell_at(8, 'e').set('king', 'black')
     @cells[1].each do |cell|
-      cell.piece.set('pawn', 'black')
+      cell.set('pawn', 'black')
     end
   end
 
@@ -78,7 +78,7 @@ class Board
       row.each_with_index do |cell, j|
         # switch statement, checks the piece's name and color
         # and prints the corrispondent unicode character
-        case cell.piece.name
+        case cell.name
         when 'none'
           if (index+j).modulo(2) == 1
             print white_square.encode('utf-8') + ' '
@@ -87,42 +87,42 @@ class Board
           end
 
         when 'rook'
-          if cell.piece.color == 'white'
+          if cell.color == 'white'
             print white_rook.encode('utf-8') + ' '
           else
             print black_rook.encode('utf-8') + ' '                       
           end
 
         when 'knight'
-          if cell.piece.color == 'white'
+          if cell.color == 'white'
             print white_knight.encode('utf-8') + ' '
           else
             print black_knight.encode('utf-8') + ' '
           end
 
         when 'bishop'
-          if cell.piece.color == 'white' 
+          if cell.color == 'white' 
             print white_bishop.encode('utf-8') + ' '
           else
             print black_bishop.encode('utf-8') + ' '  
           end
 
         when 'queen'
-          if cell.piece.color == 'white' 
+          if cell.color == 'white' 
             print white_queen.encode('utf-8') + ' '
           else
             print black_queen.encode('utf-8') + ' '
           end
 
         when 'king'
-          if cell.piece.color == 'white' 
+          if cell.color == 'white' 
             print white_king.encode('utf-8') + ' '
           else
             print black_king.encode('utf-8') + ' '
           end
 
         when 'pawn'
-          if cell.piece.color == 'white' 
+          if cell.color == 'white' 
             print white_pawn.encode('utf-8') + ' '
           else
             print black_pawn.encode('utf-8') + ' '
@@ -156,37 +156,37 @@ class Board
     @cells[8-row][col_num]
   end
 
-  def check_if_valid_coords(coords)
+  def valid_coords?(coords)
     # check row index
+    return false if (coords[0].nil? || coords[1].nil?) || (coords[1].length() == 0)
     return false if coords[0] < 1 || coords[0] > 8 
 
-    # check column index
+    # check column index, which is the first letter of coords[1]
     col_index = coords[1][0].ord - 97
     return false if col_index < 0 || col_index > 7
 
     return true
   end
 
-  def move_piece(start_coords, end_coords)
-    return nil unless check_if_valid_coords(start_coords)
-    return nil unless check_if_valid_coords(end_coords)
+  def move_piece(start_coords, target_coords)
+    return nil unless valid_coords?(start_coords)
+    return nil unless valid_coords?(target_coords)
 
     # get the piece in the starting cell
-    piece = cell_at(start_coords[0], start_coords[1]).piece
+    piece = cell_at(start_coords[0], start_coords[1])
 
     # change values of ending cell equal to those of the starting cell
-    cell_at(end_coords[0], end_coords[1]).piece.set(piece.name, piece.color)
+    cell_at(target_coords[0], target_coords[1]).set(piece.name, piece.color)
 
     # set starting cell to empty
-    cell_at(start_coords[0], start_coords[1]).piece.set('none', 'none')
+    cell_at(start_coords[0], start_coords[1]).set('none', 'none')
   end
 
   # return the 'front end' coordinates of the king of the given color
   def find_king(color)
-    each_cell_with_index do |cell, row_index, col_index|
-      piece = cell.piece
+    each_cell_with_index do |piece, row_index, col_index|
       if piece.name == 'king' && piece.color == color
-        return get_coords(row_index, col_index)
+        return player_coords(row_index, col_index)
       end
     end
 
@@ -213,12 +213,12 @@ class Board
   end
 
   # returns the "front-end" coordinates given the @cells indexes
-  def get_coords(row, col)
-    [8 - row, (col + 97).chr]
+  def player_coords(row, col)
+    [8 - row, (col + 97).chr] 
   end
 
   # returns the piece at indices row, col in the matrix
   def at(row, col)
-    @cells[row][col].piece
+    @cells[row][col]
   end
 end

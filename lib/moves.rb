@@ -5,7 +5,7 @@ require_relative 'moves_helper.rb'
 # returns the possible moves of a singular piece on the given board
 # doesn't check if the move is legal, it will be removed in main.rb
 def get_cell_moves(board, coords)
-  piece = board.cell_at(coords[0], coords[1]).piece
+  piece = board.cell_at(coords[0], coords[1])
   row = 8 - coords[0]
   col = coords[1][0].ord - 97
   
@@ -27,9 +27,7 @@ end
 
 # assign possible moves to every piece in the given board
 def assign_possible_moves(board)
-  board.each_cell_with_index do |cell, row_index, col_index|
-    piece = cell.piece
-
+  board.each_cell_with_index do |piece, row_index, col_index|
     # turn pawn into queen if it reaches the opposite end
     if piece.name == 'pawn'
       piece.name = 'queen' if piece.color == 'white' && row_index == 0
@@ -44,8 +42,7 @@ end
 def get_all_player_moves(board, color)
   ret_array = []
 
-  board.each_cell_with_index do |cell, row_index, col_index|
-    piece = cell.piece
+  board.each_cell_with_index do |piece, row_index, col_index|
     piece.possible_moves.each { |coord| ret_array << coord } if piece.color == color
   end
 
@@ -62,11 +59,8 @@ def is_in_check?(board, player)
 
   king_coords = board.find_king(player.color)
 
-  if get_all_player_moves(board, opp_color).include?(king_coords)
-    return true
-  else
-    return false
-  end
+  return true if get_all_player_moves(board, opp_color).include?(king_coords)
+  return false
 end
 
 # remove a player's illegal moves from a board
@@ -74,10 +68,8 @@ def delete_moves_that_cause_check(board, player)
   moves_to_delete = []
 
   # cycle every cell of the board
-  board.each_cell_with_index do |cell, row_index, col_index|
-    # get the piece at the current cell
-    piece = cell.piece
-    # reset the array
+  board.each_cell_with_index do |piece, row_index, col_index|
+    # reset the array at every iteration
     moves_to_delete = []
 
     # select only the given player's pieces

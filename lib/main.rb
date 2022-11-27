@@ -71,7 +71,7 @@ class Game
     loop do
       start_coords = get_input_coords(board)
 
-      piece = board.cell_at(start_coords[0], start_coords[1]).piece
+      piece = board.cell_at(start_coords[0], start_coords[1])
 
       # loop until the starting cell is valid
       break if piece.color == player.color && piece.possible_moves.any?
@@ -82,7 +82,7 @@ class Game
     # get the coordinates of the target cell
     puts "Where do you want to move it?"
     loop do
-      piece = board.cell_at(start_coords[0], start_coords[1]).piece
+      piece = board.cell_at(start_coords[0], start_coords[1])
       puts "possible moves: " + piece.possible_moves.to_s[1...-1]
 
       end_coords = get_input_coords(board)
@@ -111,12 +111,14 @@ class Game
       # the player wants to quit the game
       exit if input.downcase == 'quit'
 
-      input = input.split(',') 
+      input = input.split(',')
+      num_args = input.length()
+
       # clean up the input
-      input[0] = input[0].to_i 
+      input[0] = input[0].to_i
       input[1] = input[1].to_s.strip 
 
-      return input if board.check_if_valid_coords(input)
+      return input if board.valid_coords?(input) && num_args == 2
 
       puts 'Insert valid coordinates'
     end
