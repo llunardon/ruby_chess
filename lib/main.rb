@@ -18,11 +18,13 @@ class Game
       # create player 2 and assign them the opposite color
       @player2 = Player.new('')
       @player1.color == 'white' ? @player2.color = 'black' : @player2.color = 'white'
+      if @player1.color == 'white'
+          @player1.turn = 1
+      end
 
-      # inizialize board and print it
+      # initialize board and print it
       @board = Board.new
       @board.print_board
-
       assign_possible_moves(@board)
 
     # choice to load a previous game
@@ -32,49 +34,46 @@ class Game
       @player1 = yaml.player1
       @player2 = yaml.player2
       @board.print_board
-
       assign_possible_moves(@board)
     end
 
-    # play rounds
     loop do
-      if @player1.color == 'white'
-        play_round(@board, @player1)
-        play_round(@board, @player2)
-      else
-        play_round(@board, @player2)
-        play_round(@board, @player1)
-      end
+      play_round(@board, @player1, @player2)
     end
   end
 
-  def play_round(board, player)
-    # remove illegal moves
-    delete_moves_that_cause_check(board, player)
+  def play_round(board, player1, player2)
+    if player1.turn == 1
+      curr_player = player1
+      opponent_player = player2
+    else
+      curr_player = player2
+      opponent_player = player1
+    end
 
-    # control if the player is in checkmate and exit if yes
-    if get_all_player_moves(board, player.color).empty?
-      puts "#{player.name} lost!"
+    # remove illegal moves and control if curr_player is in checkmate
+    delete_moves_that_cause_check(board, curr_player)
+    if get_all_player_moves(board, curr_player.color).empty?
+      puts "#{curr_player.name} lost!"
       exit
     end
 
     # control if the player is in check
-    puts "***** #{player.name}, you\'re in check! *****" if is_in_check?(board, player)
+    puts "***** #{curr_player.name}, you\'re in check! *****" if is_in_check?(board, curr_player)
 
     # inizialize coordinates
     start_coords = nil
     end_coords = nil
 
     # get the coordinates of the piece to move
-    puts "It is #{player.name}\'s turn. Choose a piece to move or type \"quit\". The game will be saved automatically every two turns."
+    puts "It is #{curr_player.name}\'s turn. Choose a piece to move or type \"quit\". The game will be saved automatically every two turns."
     puts "Insert the row and column separated by a comma"
     loop do
       start_coords = get_input_coords(board)
-
       piece = board.cell_at(start_coords[0], start_coords[1])
 
       # loop until the starting cell is valid
-      break if piece.color == player.color && piece.possible_moves.any?
+      break if piece.color == curr_player.color && piece.possible_moves.any?
 
       puts 'Insert a legal move'
     end
@@ -83,7 +82,6 @@ class Game
     puts "Where do you want to move it?"
     loop do
       piece = board.cell_at(start_coords[0], start_coords[1])
-      puts "possible moves: " + piece.possible_moves.to_s[1...-1]
 
       end_coords = get_input_coords(board)
 
@@ -98,28 +96,26 @@ class Game
 
     # update the possible moves
     assign_possible_moves(board)
-
     board.print_board
-    Game.save_game(self) if player.color == 'black'
+
+    # swap the turns variables and save the game
+    curr_player.turn = 0
+    opponent_player.turn = 1
+    Game.save_game(self)
   end
 
   # receive the coordinates in stdin
   def get_input_coords(board)
     loop do
       input = gets.chomp
-
-      # the player wants to quit the game
       exit if input.downcase == 'quit'
 
       input = input.split(',')
       num_args = input.length()
-
-      # clean up the input
       input[0] = input[0].to_i
       input[1] = input[1].to_s.strip 
 
       return input if board.valid_coords?(input) && num_args == 2
-
       puts 'Insert valid coordinates'
     end
   end

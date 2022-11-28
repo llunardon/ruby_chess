@@ -141,21 +141,6 @@ class Board
     puts '  a b c d e f g h  '
   end
 
-  # inputs row and col are in player's notation
-  # player's row = 1 --> kept at index 7 in the matrix
-  # col is a letter
-  def cell_at(row, col)
-    return nil if row.to_i < 1 || row.to_i > 8 
-
-    # convert the ASCII code to the correct integer
-    col_num = col[0].ord - 97
-    return nil if col_num < 0 || col_num > 7
-
-    # white king is in row 1 at the beginning
-    # black king is in row 8 at the beginning
-    @cells[8-row][col_num]
-  end
-
   def valid_coords?(coords)
     # check row index
     return false if (coords[0].nil? || coords[1].nil?) || (coords[1].length() == 0)
@@ -215,6 +200,21 @@ class Board
   # returns the "front-end" coordinates given the @cells indexes
   def player_coords(row, col)
     [8 - row, (col + 97).chr] 
+  end
+  
+  # inputs row and col are in player's notation
+  # player's row = 1 --> kept at index 7 in the matrix
+  # col is a letter
+  def cell_at(row, col)
+    return nil if row.to_i < 1 || row.to_i > 8 
+
+    # convert the ASCII code to the correct integer
+    col_num = col[0].ord - 97
+    return nil if col_num < 0 || col_num > 7
+
+    # white king is in row 1 at the beginning
+    # black king is in row 8 at the beginning
+    @cells[8-row][col_num]
   end
 
   # returns the piece at indices row, col in the matrix
