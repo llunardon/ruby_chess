@@ -17,27 +17,27 @@ class Board
 
   def assign_pieces()
     # assign white pieces
-    cell_at(1, 'a').set('rook', 'white')
-    cell_at(1, 'h').set('rook', 'white')
-    cell_at(1, 'b').set('knight', 'white')
-    cell_at(1, 'g').set('knight', 'white')
-    cell_at(1, 'c').set('bishop', 'white')
-    cell_at(1, 'f').set('bishop', 'white')
-    cell_at(1, 'd').set('queen', 'white')
-    cell_at(1, 'e').set('king', 'white')
+    self.at(7, 0).set('rook', 'white')
+    self.at(7, 1).set('knight', 'white')
+    self.at(7, 2).set('bishop', 'white')
+    self.at(7, 3).set('queen', 'white')
+    self.at(7, 4).set('king', 'white')
+    self.at(7, 5).set('bishop', 'white')
+    self.at(7, 6).set('knight', 'white')
+    self.at(7, 7).set('rook', 'white')
     @cells[6].each do |cell|
       cell.set('pawn', 'white')
     end
 
     # assign black pieces
-    cell_at(8, 'a').set('rook', 'black')
-    cell_at(8, 'h').set('rook', 'black')
-    cell_at(8, 'b').set('knight', 'black')
-    cell_at(8, 'g').set('knight', 'black')
-    cell_at(8, 'c').set('bishop', 'black')
-    cell_at(8, 'f').set('bishop', 'black')
-    cell_at(8, 'd').set('queen', 'black')
-    cell_at(8, 'e').set('king', 'black')
+    self.at(0, 0).set('rook', 'black')
+    self.at(0, 1).set('knight', 'black')
+    self.at(0, 2).set('bishop', 'black')
+    self.at(0, 3).set('queen', 'black')
+    self.at(0, 4).set('king', 'black')
+    self.at(0, 5).set('bishop', 'black')
+    self.at(0, 6).set('knight', 'black')
+    self.at(0, 7).set('rook', 'black')
     @cells[1].each do |cell|
       cell.set('pawn', 'black')
     end
@@ -74,7 +74,6 @@ class Board
       print '|'
 
       # iterate over every column
-      #row.each do |cell|
       row.each_with_index do |cell, j|
         # switch statement, checks the piece's name and color
         # and prints the corrispondent unicode character
@@ -142,15 +141,10 @@ class Board
   end
 
   def valid_coords?(coords)
-    # check row index
-    return false if (coords[0].nil? || coords[1].nil?) || (coords[1].length() == 0)
-    return false if coords[0] < 1 || coords[0] > 8 
-
-    # check column index, which is the first letter of coords[1]
-    col_index = coords[1][0].ord - 97
-    return false if col_index < 0 || col_index > 7
-
-    return true
+    row = coords[0]
+    col = coords[1]
+    return false if (row.nil? || col.nil?)
+    return (row <= 7 && row >= 0 && col <= 7 && col >= 0)
   end
 
   def move_piece(start_coords, target_coords)
@@ -158,20 +152,20 @@ class Board
     return nil unless valid_coords?(target_coords)
 
     # get the piece in the starting cell
-    piece = cell_at(start_coords[0], start_coords[1])
+    piece = self.at(start_coords[0], start_coords[1])
 
     # change values of ending cell equal to those of the starting cell
-    cell_at(target_coords[0], target_coords[1]).set(piece.name, piece.color)
+    self.at(target_coords[0], target_coords[1]).set(piece.name, piece.color)
 
     # set starting cell to empty
-    cell_at(start_coords[0], start_coords[1]).set('none', 'none')
+    self.at(start_coords[0], start_coords[1]).set('none', 'none')
   end
 
   # return the 'front end' coordinates of the king of the given color
   def find_king(color)
     each_cell_with_index do |piece, row_index, col_index|
       if piece.name == 'king' && piece.color == color
-        return player_coords(row_index, col_index)
+        return [row_index, col_index]
       end
     end
 
@@ -195,26 +189,6 @@ class Board
           yield(cell, row_index, col_index)
       end
     end
-  end
-
-  # returns the "front-end" coordinates given the @cells indexes
-  def player_coords(row, col)
-    [8 - row, (col + 97).chr] 
-  end
-  
-  # inputs row and col are in player's notation
-  # player's row = 1 --> kept at index 7 in the matrix
-  # col is a letter
-  def cell_at(row, col)
-    return nil if row.to_i < 1 || row.to_i > 8 
-
-    # convert the ASCII code to the correct integer
-    col_num = col[0].ord - 97
-    return nil if col_num < 0 || col_num > 7
-
-    # white king is in row 1 at the beginning
-    # black king is in row 8 at the beginning
-    @cells[8-row][col_num]
   end
 
   # returns the piece at indices row, col in the matrix

@@ -12,19 +12,19 @@ def pawn_moves(board, row, col)
     start_row = 6
     opp_color = 'black'
   end
-
+           
   # can move two cells ahead if pawn is in starting row
   if board.at(row+i, col).is_none? && row == start_row
-    moves << player_coords(row+i, col)
-    moves << player_coords(row+(2*i), col) if board.at(row+(2*i), col).is_none?
+    moves << [row+i, col]
+    moves << [row+(2*i), col] if board.at(row+(2*i), col).is_none?
   elsif is_inside?(row+i, col) && board.at(row+i, col).is_none? 
-    moves << player_coords(row+i, col)
+    moves << [row+i, col]
   end
 
   # check left and right columns for opponents
   [-1, 1].each do |j|
     if is_inside?(row+i, col+j) && (board.at(row+i, col+j).color == opp_color)
-      moves << player_coords(row+i, col+j)
+      moves << [row+i, col+j]
     end
   end
 
@@ -34,11 +34,7 @@ end
 # used for knight and king, with different lists of moves to try
 def kk_moves(board, row, col)
   piece = board.at(row, col)
-  if piece.color == 'black'
-    starting_row = 0
-  else
-    starting_row = 7
-  end
+  piece.color == 'black'? starting_row = 0 : startin_row = 7
 
   if piece.name == 'knight'
     dest_list = [[-2,+1], [-1,+2], [-2,-1], [-1,-2], [+1,+2], [+2,+1], [2,-1], [1,-2]]
@@ -53,7 +49,7 @@ def kk_moves(board, row, col)
     j = dest[1]
 
     if is_inside?(row+i, col+j) && board.at(row+i, col+j).color != piece.color
-      moves << player_coords(row+i, col+j)
+      moves << [row+i, col+j]
     end
   end
 
@@ -79,9 +75,9 @@ def long_moves(board, row, col)
 
       if is_inside?(row+(n*i), col+(n*j)) && stop_list[dest_i] == 0 && (rq || bq)
         if board.at(row+(n*i), col+(n*j)).is_none?
-          moves << player_coords(row+(n*i), col+(n*j))
+          moves << [row+(n*i), col+(n*j)]
         elsif board.at(row+(n*i), col+(n*j)).color != start_piece.color
-          moves << player_coords(row+(n*i), col+(n*j))
+          moves << [row+(n*i), col+(n*j)]
           stop_list[dest_i] = 1
         else
           stop_list[dest_i] = 1
@@ -93,12 +89,6 @@ def long_moves(board, row, col)
   moves
 end
 
-# translate indices of matrix into player's coordinates, as seen when playing
-def player_coords(row, col)
-  [8 - row, (col + 97).chr] 
-end
-
-# boolean function that checks if given position is valid
 def is_inside?(row, col)
   (row <= 7 && row >= 0 && col <= 7 && col >= 0)
 end

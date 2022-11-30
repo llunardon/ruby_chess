@@ -37,6 +37,7 @@ class Game
       assign_possible_moves(@board)
     end
 
+    # play rounds until a player loses
     loop do
       play_round(@board, @player1, @player2)
     end
@@ -66,11 +67,11 @@ class Game
     end_coords = nil
 
     # get the coordinates of the piece to move
-    puts "It is #{curr_player.name}\'s turn. Choose a piece to move or type \"quit\". The game will be saved automatically every two turns."
+    puts "It is #{curr_player.name}\'s turn. Choose a piece to move or type \"quit\". The game will be saved automatically."
     puts "Insert the row and column separated by a comma"
     loop do
       start_coords = get_input_coords(board)
-      piece = board.cell_at(start_coords[0], start_coords[1])
+      piece = board.at(start_coords[0], start_coords[1])
 
       # loop until the starting cell is valid
       break if piece.color == curr_player.color && piece.possible_moves.any?
@@ -81,7 +82,7 @@ class Game
     # get the coordinates of the target cell
     puts "Where do you want to move it?"
     loop do
-      piece = board.cell_at(start_coords[0], start_coords[1])
+      piece = board.at(start_coords[0], start_coords[1])
 
       end_coords = get_input_coords(board)
 
@@ -112,8 +113,14 @@ class Game
 
       input = input.split(',')
       num_args = input.length()
-      input[0] = input[0].to_i
-      input[1] = input[1].to_s.strip 
+      if num_args != 2
+        puts 'Insert valid coordinates'
+        next
+      end
+
+      input[0] = 8 - input[0].to_i # transform in matrix's notation
+      input[1] = input[1].to_s.strip
+      input[1] = input[1][0].ord - 97
 
       return input if board.valid_coords?(input) && num_args == 2
       puts 'Insert valid coordinates'
@@ -138,7 +145,7 @@ loop do
 end
 
 if choice == 'load' && !(File.file?('save_file.yml'))
-  puts 'the save file does not exist, creating a new game.'
+  puts 'The save file does not exist, creating a new game.'
   choice = 'new'
 end
 

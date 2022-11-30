@@ -5,9 +5,9 @@ require_relative 'moves_helper.rb'
 # returns the possible moves of a singular piece on the given board
 # doesn't check if the move is legal, it will be removed in main.rb
 def get_cell_moves(board, coords)
-  piece = board.cell_at(coords[0], coords[1])
-  row = 8 - coords[0]
-  col = coords[1][0].ord - 97
+  piece = board.at(coords[0], coords[1])
+  row = coords[0]
+  col = coords[1]
   
   case 
   when piece.name == 'pawn'
@@ -27,14 +27,14 @@ end
 
 # assign possible moves to every piece in the given board
 def assign_possible_moves(board)
-  board.each_cell_with_index do |piece, row_index, col_index|
+  board.each_cell_with_index do |piece, row, col|
     # turn pawn into queen if it reaches the opposite end
     if piece.name == 'pawn'
-      piece.name = 'queen' if piece.color == 'white' && row_index == 0
-      piece.name = 'queen' if piece.color == 'black' && row_index == 7
+      piece.name = 'queen' if piece.color == 'white' && row == 0
+      piece.name = 'queen' if piece.color == 'black' && row == 7
     end
 
-    piece.possible_moves = get_cell_moves(board, player_coords(row_index, col_index))
+    piece.possible_moves = get_cell_moves(board, [row, col])
   end
 end
 
@@ -51,11 +51,7 @@ end
 
 # returns a boolean that indicates if the player's king is in check
 def is_in_check?(board, player)
-  if player.color == 'white'
-    opp_color = 'black'
-  else
-    opp_color = 'white'
-  end
+  player.color == 'white'? opp_color = 'black' : opp_color = 'white'
 
   king_coords = board.find_king(player.color)
 
@@ -74,7 +70,7 @@ def delete_moves_that_cause_check(board, player)
 
     # select only the given player's pieces
     if piece.color == player.color
-      start_coords = player_coords(row_index, col_index)
+      start_coords = [row_index, col_index]
 
       # cycle every piece's possible move
       piece.possible_moves.each do |end_coords|
