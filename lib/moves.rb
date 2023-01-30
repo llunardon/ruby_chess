@@ -5,22 +5,16 @@ require_relative 'moves_helper.rb'
 # returns the possible moves of a singular piece on the given board
 # doesn't check if the move is legal, it will be removed in main.rb
 def get_cell_moves(board, coords)
-  piece = board.at(coords[0], coords[1])
+  name = board.at(coords[0], coords[1]).name
   row = coords[0]
   col = coords[1]
   
   case 
-  when piece.name == 'pawn'
+  when name == 'pawn'
     return pawn_moves(board, row, col)
-  when piece.name == 'rook'
+  when name == 'bishop' || name == 'rook' || name == 'queen'
     return long_moves(board, row, col)
-  when piece.name == 'bishop'
-    return long_moves(board, row, col)
-  when piece.name == 'queen'
-    return long_moves(board, row, col)
-  when piece.name == 'knight'
-    return kk_moves(board, row, col)
-  when piece.name == 'king'
+  when name == 'knight' || name == 'king'
     return kk_moves(board, row, col)
   end
 end
@@ -65,20 +59,14 @@ def delete_moves_that_cause_check(board, player)
 
   # cycle every cell of the board
   board.each_cell_with_index do |piece, row_index, col_index|
-    # reset the array at every iteration
     moves_to_delete = []
 
-    # select only the given player's pieces
     if piece.color == player.color
       start_coords = [row_index, col_index]
 
-      # cycle every piece's possible move
       piece.possible_moves.each do |end_coords|
-        # check if the move is illegal, if it is the add it to the array
         moves_to_delete << end_coords if causes_check?(board, player, start_coords, end_coords)
       end
-
-      # subtract the illegal moves
       piece.possible_moves -= moves_to_delete
     end
   end
@@ -86,14 +74,11 @@ end
 
 # returns true if a move causes the king to be in check
 def causes_check?(board, player, start_coords, end_coords)
-  # creates a temporary board to test the given move
-  temp_board = Marshal.load(Marshal.dump(board))
+  temp_board = Marshal.load(Marshal.dump(board)) # test move on temporary board
   assign_possible_moves(temp_board)
 
-  # move the piece at the given coordinates
   temp_board.move_piece(start_coords, end_coords)
   assign_possible_moves(temp_board)
 
-  # is it in check?
   is_in_check?(temp_board, player)
 end
